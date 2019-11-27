@@ -6,25 +6,33 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="default.css" library="css"/>
-        <h:outputStylesheet name="cssLayout.css" library="css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <title>Team Management System</title>
     </h:head>
 
     <h:body>
+
 
         <div id="top" class="top">
             <ui:insert name="top">
                 <div>
                     <h1><BIG>Team Management System</BIG></h1>
                 </div>
-                
             </ui:insert>
         </div>
-
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
+        <div>
+            <div id="left">
+                <ui:insert name="left">
+                <ul style="list-style-type:none;"> 
+                 <li><h:link outcome="signup" value="Sign up"/></li>
+                 <li><h:link outcome="login" value="Log in"/></li>
+                </ul>
+                </ui:insert>
+            </div>
+            <div id="content" class="left_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
         </div>
-
     </h:body>
-
 </html>

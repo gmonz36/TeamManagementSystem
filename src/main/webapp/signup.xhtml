@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+     <ui:composition template="./template.xhtml">
+
+      <ui:define name="content">
+        <h1>User Information</h1>
+        <f:view>
+            <h:form>
+                <h:panelGrid columns="3">
+                    <h:outputText value="User Id"></h:outputText>
+                    <h:inputText id="id" value="#{signUpBean.userId}" required="true" requiredMessage="Please enter your student/employee Id">
+                    </h:inputText>
+                    <h:message id="idMsg" for="id" errorStyle="color:red; display:block"/>
+                    <h:outputText value="Password"></h:outputText>
+                    <h:inputSecret id="password" value="#{signUpBean.password}" required="true" requiredMessage="Please enter your password">
+                    </h:inputSecret>
+                    <h:message id="pMsg" for="password" errorStyle="color:red; display:block"/>
+                    <h:outputText value="First Name"></h:outputText>
+                    <h:inputText id="firstname" value="#{signUpBean.firstname}" required="true" requiredMessage="Please enter your first name">
+                    </h:inputText>
+                    <h:message id="fMsg" for="firstname" errorStyle="color:red; display:block"/>
+                    <h:outputText value="Last Name"></h:outputText>
+                    <h:inputText id="lastname" value="#{signUpBean.lastname}" required="true" requiredMessage="Please enter your last name">
+                    </h:inputText>
+                    <h:message id="lMsg" for="lastname" errorStyle="color:red; display:block"/>
+                    <h:outputText value="Email"></h:outputText>
+                    <h:inputText id="email" value="#{signUpBean.email}" required="true" requiredMessage="Please enter your email">
+                    </h:inputText>
+                    <h:message id="eMsg" for="email" errorStyle="color:red; display:block"/>
+                    <h:outputText value="Program (Only enter if student)"></h:outputText>
+                    <h:inputText id="program" value="#{signUpBean.program}" required="false" requiredMessage="Please enter your program">
+                    </h:inputText>
+                    <h:message id="prMsg" for="program" errorStyle="color:red; display:block"/>                    
+                    <h:selectOneRadio id="type" value="#{signUpBean.type}" required="true" requiredMessage="Please specify which type of user you are">
+                            <f:selectItem itemValue="Student" itemLabel="Student" />
+                            <f:selectItem itemValue="Instructor" itemLabel="Instructor" />
+                    </h:selectOneRadio>  
+                    <h:message id="typeMsg" for="type" errorStyle="color:red; display:block"/> 
+                </h:panelGrid>
+                <h:commandButton value="Add" type="command"  actionListener="#{signUpBean.addUser}">
+                   <f:ajax execute="id password firstname lastname email program type"
+                           render="status idMsg pMsg fMsg lMsg eMsg prMsg typeMsg"/>
+                </h:commandButton>
+                <h:commandButton value="Cancel" type="reset" />
+                
+                <div>
+                    <hr/>
+                    <hr/>
+                        <h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="status" value="#{signUpBean.status}"/>
+                    
+                </div>
+            </h:form>
+        </f:view>
+      </ui:define>
+
+    </ui:composition>
+
+    </body>
+</html>
