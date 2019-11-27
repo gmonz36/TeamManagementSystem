@@ -12,14 +12,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import persistence.User;
 import persistence.Student;
 import persistence.Instructor;
 
-/**
- *
- * @author ssome
- */
 @Named(value = "signUpBean")
 @RequestScoped
 public class SignUpBean {
