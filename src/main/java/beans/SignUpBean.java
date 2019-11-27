@@ -30,7 +30,7 @@ public class SignUpBean {
     private String password;
     private String type;
     private String program;
-    @PersistenceContext(unitName = "UserPU")
+    @PersistenceContext(unitName = "TeamManagementSystemPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;

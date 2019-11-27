@@ -1,12 +1,14 @@
 package persistence;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  *
  * @author gmonz36
  */
 @Entity
+@Table(name="STUDENT_TABLE8930730")
 public class Student extends User {
     private String program;
     
