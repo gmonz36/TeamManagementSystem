@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -177,7 +178,8 @@ public class SignUpBean {
                 acc.setSalt(salt);
                 acc.setPassword(passhash);
                 persist(acc);
-                status="New Student Created Fine";                
+                status="New Student Created Fine"; 
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             }
             else if(type.equals("Instructor")) {
                 Instructor acc = new Instructor();
@@ -196,11 +198,12 @@ public class SignUpBean {
                 acc.setSalt(salt);
                 acc.setPassword(passhash);
                 persist(acc);
-                status="New Instructor Created Fine";                
+                status="New Instructor Created Fine"; 
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             } else {
                 throw new RuntimeException("User type not defined.");
             }
-        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | RuntimeException ex ) {
+        } catch (Exception ex ) {
             Logger.getLogger(SignUpBean.class.getName()).log(Level.SEVERE, null, ex);
             status="Error While Creating New User";
         }

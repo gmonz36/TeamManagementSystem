@@ -22,14 +22,15 @@
                     </h:inputSecret>
                     <h:message id="pMsg" for="password" errorStyle="color:red; display:block"/>
                 </h:panelGrid>
-                <h:commandButton value="log in" type="command">
-                <f:ajax render="status idMsg pMsg"/>
+                <h:commandButton value="log in" type="command" actionListener="#{logInBean.login}">
+                <f:ajax execute="id  password" render="status idMsg pMsg"/>
                 </h:commandButton>
                 <h:commandButton value="Cancel" type="reset" />
                 
                 <div>
                     <hr/>
                     <hr/>
+                    <h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="status" value="#{logInBean.status}"/>
                 </div>
             </h:form>               
         </f:view>
