@@ -123,7 +123,11 @@ public class LogInBean {
         // invalidate session to remove User
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         session.invalidate();
-        // navigate to index - see faces-config.xml for navigation rules
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/TeamManagementSystem/");
+        } catch(IOException ex) {
+            return "error";
+        }
         return "logout";
     }
     

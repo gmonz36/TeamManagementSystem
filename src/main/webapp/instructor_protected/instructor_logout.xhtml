@@ -11,7 +11,11 @@
 
             <ui:define name="content">
            <f:view>
-           
+               <h1>Press logout if you wish to disconnect and return to start menu.</h1>
+                    <h:form>
+                <h:commandButton value="Logout" type="command"  action="#{logInBean.logout}"> 
+                </h:commandButton> 
+                    </h:form>           
         </f:view>
             </ui:define>
 
