@@ -5,10 +5,29 @@
  */
 package persistence;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author gmonz36
  */
-public class Course {
+@Entity
+@Table(name="COURSE_TABLE8930730")
+public class Course implements Serializable{
+    
+    @Id
+    String courseCode;
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+    
     
 }
