@@ -24,12 +24,12 @@
         <div>
             <div id="left">
                 <ui:insert name="left">
-                <ul style="list-style-type:none;"> 
-                 <li><h:button outcome="create_team" value="Create Team"/></li>
-                 <li><h:commandButton action="#{JoinTeamBean.getIncompleteTeams()}" value="Join Team"/></li>
-                 <li><h:button outcome="accept_new_students" value="Accept New Students"/></li>
-                 <li><h:commandButton action="#{LogInBean.lougout}student_logout" value="Log Out"/></li>
-                </ul>
+                <ul style="list-style-type:none;"><h:form>
+                 <li><h:link outcome="create_team" value="Create Team"/></li>
+                 <li><h:commandLink action="#{joinTeamBean.incompleteTeam()}" value="Join Team"/></li>
+                 <li><h:link outcome="accept_new_students" value="Accept New Students"/></li>
+                 <li><h:commandLink action="#{logInBean.logout()}" value="Log Out"/></li>
+                </h:form></ul>
                 </ui:insert>
             </div>
             <div id="content" class="left_content">
