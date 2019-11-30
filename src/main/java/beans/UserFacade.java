@@ -33,18 +33,4 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
 
     
 
-    @Override
-    public List<User> findById(String id) {
-//        try {
-//            Query query = em.createQuery(
-//                "SELECT u FROM Item u" +
-//                " WHERE u.category = :ItemCategory");
-//            query.setParameter("ItemCategory",category);
-//
-//            List resultList = query.getResultList();
-//            return resultList;
-//        } catch (Exception e) {
-//        }
-        return null;
-    }    
 }

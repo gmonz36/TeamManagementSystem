@@ -19,8 +19,8 @@
                                 </h:inputText>
                             <h:message id="idMsg" for="id" errorStyle="color:red; display:block"/>
                             <h:outputText value="Members"></h:outputText>
-                                <h:inputText id="members" value="#{createTeamBean.members}" required="true" requiredMessage="Please enter team members">
-                                </h:inputText>
+                                <h:inputText id="members" value="#{createTeamBean.membersString}" required="true" requiredMessage="Please enter team members student IDs seperated by commas">
+                                </h:inputText> 
                             <h:message id="idMsg2" for="id" errorStyle="color:red; display:block"/>
                         </h:panelGrid>
                         <h:commandButton value="Create" type="command"  action="#{createTeamBean.createTeam}"> 

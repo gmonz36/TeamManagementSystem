@@ -32,6 +32,5 @@ public interface UserFacadeLocal {
     int count();
     
     
-    public List<User> findById(String id);
     
 }

@@ -30,32 +30,33 @@ public class Team implements Serializable{
     boolean teamStatus;
     String liaisonId;
     Student[] members;
+    String membersString;
 
-    public String get_teamId() {
+    public String getTeamId() {
         return teamId;
     }
 
-    public void set_teamId(String teamId) {
-        this.teamId = teamId;
+    public void setTeamId() {
+        this.teamId = courseCode+""; //TODO add number num of teams in course + 1
     }
 
-    public String get_teamName() {
+    public String getTeamName() {
         return teamName;
     }
 
-    public void set_teamName(String teamName) {
+    public void setTeamName(String teamName) {
         this.teamName = teamName;
     }
 
-    public LocalDate get_dateOfCreation() {
+    public LocalDate getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public void set_dateOfCreation() {
+    public void setDateOfCreation() {
         this.dateOfCreation = java.time.LocalDate.now();
     }
 
-    public boolean get_teamStatus () {
+    public boolean getTeamStatus () {
         return teamStatus;
     }
 
@@ -63,28 +64,35 @@ public class Team implements Serializable{
         this.teamStatus = teamStatus;
     }
 
-    public String get_liaisonId() {
+    public String getLiaisonId() {
         return liaisonId;
     }
 
-    public void set_liaisonId(String liaisonId) {
+    public void setLiaisonId(String liaisonId) {
         this.liaisonId = liaisonId;
     }
     
-    public Student[] get_members() {
+    public Student[] getMembers() {
         return members;
     }
 
-    public void set_members(Student[] members) {
+    public void setMembers(Student[] members) {
         this.members = members;
     }
-
-    public String get_CourseCode() {
+    
+    public String getCourseCode() {
         return courseCode;
     }
 
-    public void set_CourseCode(String courseCode) {
+    public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
     } 
     
+    public String getMembersString() {
+        return membersString;
+    }
+
+    public void setMembersString(String membersString) {
+        this.membersString = membersString;
+    } 
 }
