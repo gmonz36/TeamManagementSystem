@@ -5,6 +5,8 @@
  */
 package persistence;
 
+import java.io.Serializable;
+
 import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,9 +19,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="TEAM_TABLE8930730")
-public class Team {
+
+public class Team implements Serializable{
     
     @Id
+    String courseCode;
     String teamId;
     String teamName;
     LocalDate dateOfCreation;
@@ -74,8 +78,13 @@ public class Team {
     public void set_members(Student[] members) {
         this.members = members;
     }
-    
-    
-    
+
+    public String get_CourseCode() {
+        return courseCode;
+    }
+
+    public void set_CourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    } 
     
 }
