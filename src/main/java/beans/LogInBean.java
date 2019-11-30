@@ -78,10 +78,13 @@ public class LogInBean {
                 HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
                 if(userFacade.findStudent(userId)!=null) {
                     session.setAttribute("User", userFacade.findStudent(userId));
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("faces/student_protected/create_team.xhtml");
+
                 } else {
                    session.setAttribute("User", userFacade.findInstructor(userId)); 
+                   FacesContext.getCurrentInstance().getExternalContext().redirect("faces/instructor_protected/visualize_teams.xhtml");
+
                 }
-                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/student_protected/create_team.xhtml");
             } else {
                 status="Invalid Login, Please Try again"; 
             }

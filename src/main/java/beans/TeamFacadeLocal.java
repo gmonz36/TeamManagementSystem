@@ -9,6 +9,7 @@ package beans;
 import persistence.Team;
 import java.util.List;
 import javax.ejb.Local;
+import persistence.TeamParameters;
 
 /**
  *
@@ -17,11 +18,11 @@ import javax.ejb.Local;
 @Local
 public interface TeamFacadeLocal {
 
-    void create(Team user);
+    void addTeam(Team team);
 
-    void edit(Team user);
+    void edit(Team team);
 
-    void remove(Team user);
+    void remove(Team team);
 
     Team find(Object id);
 
@@ -31,6 +32,8 @@ public interface TeamFacadeLocal {
 
     int count();
     
+    TeamParameters findTeamParams(Object courseCode);
+
     
     public List<Team> findById(String id);
     

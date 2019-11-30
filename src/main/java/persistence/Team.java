@@ -8,6 +8,7 @@ package persistence;
 import java.io.Serializable;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -29,7 +30,7 @@ public class Team implements Serializable{
     LocalDate dateOfCreation;
     boolean teamStatus;
     String liaisonId;
-    Student[] members;
+    ArrayList<String> members;
     String membersString;
 
     public String getTeamId() {
@@ -72,11 +73,11 @@ public class Team implements Serializable{
         this.liaisonId = liaisonId;
     }
     
-    public Student[] getMembers() {
+    public ArrayList<String> getMembers() {
         return members;
     }
 
-    public void setMembers(Student[] members) {
+    public void setMembers(ArrayList<String> members) {
         this.members = members;
     }
     

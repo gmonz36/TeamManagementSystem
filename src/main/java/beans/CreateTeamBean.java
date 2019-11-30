@@ -22,6 +22,8 @@ import persistence.User;
 import persistence.Team;
 import persistence.TeamParameters;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import javax.ejb.EJB;
 import persistence.Instructor;
 
 /**
@@ -35,21 +37,21 @@ public class CreateTeamBean {
     /**
      * Creates a new instance of SetUpTeamsParametersBean
      */
-        
+        @EJB
         private UserFacadeLocal userFacade;
-        
+        @EJB
+        private TeamFacadeLocal teamFacade;
+                
         private String teamId;
         private String teamName;
         private LocalDate dateOfCreation;
         private boolean teamStatus;
         private String liaisonId;
-        private Student[] members;
+        private ArrayList<String> members;
         private String membersString;
         private String courseCode;
         
-        
-    @PersistenceContext(unitName = "TeamManagementSystemPU")
-    private EntityManager em;
+
     @Resource
     private javax.transaction.UserTransaction utx;
     
@@ -62,18 +64,8 @@ public class CreateTeamBean {
         
     }
     
-     public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
-    
-    public String createTeam(){
+     
+    public void createTeam(){
         
         try {
             Team team = new Team();
@@ -81,10 +73,9 @@ public class CreateTeamBean {
             Student user = (Student)session.getAttribute("User");
             team.setLiaisonId(user.getUserId());
 
-            
-            TeamParameters params = em.find(TeamParameters.class, courseCode);
+            team.setCourseCode(courseCode);
+            TeamParameters params = teamFacade.findTeamParams(courseCode);
 
-            members = new Student[params.getMaxStudents()];
 
             if(params == null) {
                 status="Invalid Course, please try again";
@@ -97,18 +88,22 @@ public class CreateTeamBean {
                 
                 membersString = membersString.replaceAll("\\s", ""); 
                 
-                
-                String[] member_ids= membersString.split(",");
-                if (member_ids.length+1>params.getMaxStudents()) {
-                    status="Number of team members exceeds limit";
-                    return "Error";
+                String[] tmp_members = membersString.split(",");
+ 
+                for (int i=0; i<tmp_members.length; i++){
+                   
+                    Student student = (Student)userFacade.findStudent(tmp_members[i]);
+                    if (student == null){
+                        throw new Exception();
+                    }
+                    else if(i>params.getMaxStudents()-1){
+                        status="Number of team members exceeds limit";
+                    }
+                    else{
+                        members.add(tmp_members[i]);
+                    }
                 }
-                
-                members[0] = user;
-                for (int i=1; i<=member_ids.length; i++){
-                    Student student = (Student)userFacade.findById(member_ids[i]);
-                    members[i] = student;
-                }
+                members.add(user.getUserId());
                 
                         
                         
@@ -116,7 +111,7 @@ public class CreateTeamBean {
                 team.setTeamId();
                 team.setCourseCode(courseCode);
 
-                if(members.length+1<params.getMaxStudents()){
+                if(members.size()<params.getMaxStudents()){
                     team.set_teamStatus(false);
                 }
                 else{
@@ -124,14 +119,14 @@ public class CreateTeamBean {
                 }
                
                 
-                persist(team);
-
-                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/student_protected/create_team.xhtml");
+                teamFacade.addTeam(team);
+                status="team created";
             }
-        } catch(IOException ex) {
-            return "error";
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            status="Error while creating team";
         }
-        return "confirm";
+  
         
         
     
@@ -142,7 +137,10 @@ public class CreateTeamBean {
     }
 
     public void setTeamId() {
-        this.teamId = courseCode+""; //TODO add number num of teams in course + 1
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Student user = (Student)session.getAttribute("User");
+
+        this.teamId = courseCode+user.getUserId(); 
     }
 
     public String getTeamName() {
@@ -177,11 +175,11 @@ public class CreateTeamBean {
         this.liaisonId = liaisonId;
     }
     
-    public Student[] getMembers() {
+    public ArrayList<String> getMembers() {
         return members;
     }
 
-    public void setMembers(Student[] members) {
+    public void setMembers(ArrayList<String> members) {
         this.members = members;
     }
     
@@ -199,6 +197,14 @@ public class CreateTeamBean {
     public void setMembersString(String membersString) {
         this.membersString = membersString;
     } 
+    
+     public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
     
     
     
