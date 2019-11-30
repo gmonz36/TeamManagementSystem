@@ -20,5 +20,21 @@ public class CourseSection implements Serializable{
     
     @Id String courseCode;
     @Id String sectionCode;
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public String getSectionCode() {
+        return sectionCode;
+    }
+
+    public void setSectionCode(String sectionCode) {
+        this.sectionCode = sectionCode;
+    }
     
 }
