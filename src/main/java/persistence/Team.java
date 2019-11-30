@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
-
-
 /**
  *
  * @author gmonz36

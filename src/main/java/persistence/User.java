@@ -34,10 +34,7 @@ public class User implements Serializable {
     @Lob
     private byte[] salt; // the salt used for this account
 
-    public String getUserId() {
-        return userId;
-    }
-
+  
 
     @Override
     public int hashCode() {
@@ -64,12 +61,21 @@ public class User implements Serializable {
         return "persistence.User[ id=" + userId + " ]";
     }
 
+    
+    
+    public String getUserId() {
+        return userId;
+    }
+
+    
     /**
      * @param userId the userId to set
      */
     public void setUserId(String userId) {
         this.userId = userId;
     }
+    
+   
 
     /**
      * @return the firstname
