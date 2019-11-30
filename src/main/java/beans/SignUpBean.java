@@ -1,20 +1,12 @@
 package beans;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import persistence.Student;
-import persistence.Instructor;
 
 @Named(value = "signUpBean")
 @RequestScoped
@@ -26,8 +18,8 @@ public class SignUpBean {
     private String password;
     private String type;
     private String program;
-    @PersistenceContext(unitName = "TeamManagementSystemPU")
-    private EntityManager em;
+    @EJB
+    private UserFacadeLocal userFacade;    
     @Resource
     private javax.transaction.UserTransaction utx;
     
@@ -143,61 +135,19 @@ public class SignUpBean {
         return status;
     }
     
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
-    
     public void addUser() {
         try {
             if(type.equals("Student")) {
-                Student acc = new Student();
                 if(program.equals("")) {
                     status="Students must specify their program.";
                     return;
                 }
-                acc.setProgram(program);
-                acc.setUserId(userId);
-                acc.setFirstname(firstname);
-                acc.setLastname(lastname);;
-                // randomly generate salt value
-                final Random r = new SecureRandom();
-                byte[] salt = new byte[32];
-                r.nextBytes(salt);
-                String saltString = new String(salt, "UTF-8");
-                // hash password using SHA-256 algorithm
-                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                String saltedPass = saltString+password;
-                byte[] passhash = digest.digest(saltedPass.getBytes("UTF-8"));
-                acc.setSalt(salt);
-                acc.setPassword(passhash);
-                persist(acc);
+                userFacade.addStudent(program, userId, firstname, lastname, password);
                 status="New Student Created Fine"; 
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             }
             else if(type.equals("Instructor")) {
-                Instructor acc = new Instructor();
-                acc.setUserId(userId);
-                acc.setFirstname(firstname);
-                acc.setLastname(lastname);;
-                // randomly generate salt value
-                final Random r = new SecureRandom();
-                byte[] salt = new byte[32];
-                r.nextBytes(salt);
-                String saltString = new String(salt, "UTF-8");
-                // hash password using SHA-256 algorithm
-                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                String saltedPass = saltString+password;
-                byte[] passhash = digest.digest(saltedPass.getBytes("UTF-8"));
-                acc.setSalt(salt);
-                acc.setPassword(passhash);
-                persist(acc);
+                userFacade.addInstructor(userId, firstname, lastname, password);
                 status="New Instructor Created Fine"; 
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             } else {

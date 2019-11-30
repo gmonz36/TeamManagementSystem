@@ -6,7 +6,11 @@
 
 package beans;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import persistence.User;
+import persistence.Student;
+import persistence.Instructor;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -17,14 +21,25 @@ import javax.ejb.Local;
 @Local
 public interface UserFacadeLocal {
 
-    void create(User user);
+    public void addStudent(String program, String userId, String firstname,
+            String lastname, String password) 
+            throws UnsupportedEncodingException, NoSuchAlgorithmException;
 
+    public void addInstructor(String userId, String firstname,
+            String lastname, String password) 
+            throws UnsupportedEncodingException, NoSuchAlgorithmException;
+    
+    public boolean isValidLogin(String userId, String password) 
+            throws UnsupportedEncodingException, NoSuchAlgorithmException;
+            
     void edit(User user);
 
     void remove(User user);
 
-    User find(Object id);
-
+    Student findStudent(Object id);
+    
+    Instructor findInstructor(Object id);
+    
     List<User> findAll();
 
     List<User> findRange(int[] range);
