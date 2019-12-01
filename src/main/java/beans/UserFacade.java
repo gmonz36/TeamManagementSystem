@@ -17,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import javax.persistence.Query;
 import persistence.Student;
 import persistence.Instructor;
 
@@ -127,6 +128,27 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
         return getEntityManager().find(Instructor.class, id);
 
     }
+    @Override
+    public void editStudent(Student student){
+        try {
+            Query query = em.createQuery(
+      
+                "UPDATE u FROM Student u" +
+                "SET u.teamid =:StudentTeamID"+
+                " WHERE u.userid = :StudentID");
+            query.setParameter("StudentID",student.getUserId());
+            query.setParameter("StudentTeamID",student.getTeamId());
+
+           
+           
+        } catch (Exception e) {
+        }
+
+    }
+ 
+                           
+                            
+
     
 
 }

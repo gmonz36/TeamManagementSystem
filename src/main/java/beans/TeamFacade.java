@@ -47,7 +47,7 @@ public class TeamFacade extends AbstractFacade<Team> implements TeamFacadeLocal 
         return getEntityManager().find(TeamParameters.class, courseCode);
 
     }
-    
+
     
     @Override
     public List<Team> findById(String id) {

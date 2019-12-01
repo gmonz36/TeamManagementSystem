@@ -9,9 +9,11 @@ import java.io.Serializable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javax.faces.context.FacesContext;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -30,7 +32,6 @@ public class Team implements Serializable{
     LocalDate dateOfCreation;
     boolean teamStatus;
     String liaisonId;
-    ArrayList<String> members;
     String membersString;
 
     public String getTeamId() {
@@ -38,7 +39,9 @@ public class Team implements Serializable{
     }
 
     public void setTeamId() {
-        this.teamId = courseCode+""; //TODO add number num of teams in course + 1
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Student user = (Student)session.getAttribute("User");
+        this.teamId = getCourseCode()+user.getUserId();
     }
 
     public String getTeamName() {
@@ -73,13 +76,7 @@ public class Team implements Serializable{
         this.liaisonId = liaisonId;
     }
     
-    public ArrayList<String> getMembers() {
-        return members;
-    }
 
-    public void setMembers(ArrayList<String> members) {
-        this.members = members;
-    }
     
     public String getCourseCode() {
         return courseCode;
