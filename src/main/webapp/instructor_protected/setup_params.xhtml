@@ -34,7 +34,14 @@
                             <h:message id="idMsg4" for="id" errorStyle="color:red; display:block"/>
                         </h:panelGrid>
                         <h:commandButton value="Confirm" type="command"  action="#{setUpTeamsParametersBean.confirmParameters}"> 
+                         <f:ajax execute= "minStudents maxStudents deadline courseCode" render="status idMsg idMsg2 idMsg3 idMsg4"/>
                         </h:commandButton> 
+                        
+                             <div>
+                    <hr/>
+                    <hr/>
+                    <h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="status" value="#{setUpTeamsParametersBean.status}"/>
+                </div>           
                     </h:form>     
          
         </f:view>
