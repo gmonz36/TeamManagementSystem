@@ -24,6 +24,12 @@ public class Request implements Serializable{
     String studentId;
     String teamId;
 
+    public Request(boolean status, String studentId, String teamId) {
+        this.status = status;
+        this.studentId = studentId;
+        this.teamId = teamId;
+    }
+
     public String getStudentId() {
         return studentId;
     }

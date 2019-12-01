@@ -30,55 +30,59 @@ public class Team implements Serializable{
     String liaisonId;
     Student[] members;
 
-    public String get_teamId() {
-        return teamId;
-    }
-
-    public void set_teamId(String teamId) {
+    public Team(String courseCode, String teamId, LocalDate dateOfCreation, boolean teamStatus, String liaisonId) {
+        this.courseCode = courseCode;
         this.teamId = teamId;
-    }
-
-    public String get_teamName() {
-        return teamName;
-    }
-
-    public void set_teamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public LocalDate get_dateOfCreation() {
-        return dateOfCreation;
-    }
-
-    public void set_dateOfCreation() {
-        this.dateOfCreation = java.time.LocalDate.now();
-    }
-
-    public boolean get_teamStatus () {
-        return teamStatus;
-    }
-
-    public void set_teamStatus(boolean teamStatus) {
+        this.dateOfCreation = dateOfCreation;
         this.teamStatus = teamStatus;
-    }
-
-    public String get_liaisonId() {
-        return liaisonId;
-    }
-
-    public void set_liaisonId(String liaisonId) {
         this.liaisonId = liaisonId;
     }
     
-    public Student[] get_members() {
-        return members;
+    public String getCourseCode() {
+        return courseCode;
     }
 
-    public void set_members(Student[] members) {
-        this.members = members;
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
-    
-    
-    
-    
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public LocalDate getDateOfCreation() {
+        return dateOfCreation;
+    }
+
+    public void setDateOfCreation(LocalDate dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    public boolean isTeamStatus() {
+        return teamStatus;
+    }
+
+    public void setTeamStatus(boolean teamStatus) {
+        this.teamStatus = teamStatus;
+    }
+
+    public String getLiaisonId() {
+        return liaisonId;
+    }
+
+    public void setLiaisonId(String liaisonId) {
+        this.liaisonId = liaisonId;
+    } 
 }

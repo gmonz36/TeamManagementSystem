@@ -11,7 +11,23 @@
 
             <ui:define name="content">
            <f:view>
-             
+            <form action="#{joinTeamBean.sendRequests()}">
+                <h:dataTable  cellpadding="10pt"  value="#{joinTeamBean.teams}" var="team">
+                    <h:column>
+                        <input type="checkbox" value="#{team.teamId}"></input>
+                    </h:column>
+                    <h:column>
+                       <h:outputText value="#{team.teamId}"/>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{team.teamName}"/>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{team.dateOfCreation}"/>
+                    </h:column>
+                </h:dataTable>
+                <input type="submit" value="Send Requests"></input>
+            </form>
         </f:view>
             </ui:define>
 
