@@ -24,11 +24,11 @@
         <div>
             <div id="left">
                 <ui:insert name="left">
-                <ul style="list-style-type:none;"> 
+                <ul style="list-style-type:none;"><h:form>
                  <li><h:link outcome="setup_params" value="Set Up Parameters"/></li>
                  <li><h:link outcome="visualize_teams" value="Visualize Student Teams"/></li>
-                 <li><h:link outcome="instructor_logout" value="Log Out"/></li>
-                </ul>
+                 <li><h:commandLink action="#{logInBean.logout()}" value="Log Out"/></li>
+                </h:form></ul>
                 </ui:insert>
             </div>
             <div id="content" class="left_content">

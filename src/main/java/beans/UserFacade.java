@@ -127,6 +127,7 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
     public Instructor findInstructor(Object id) {
         return getEntityManager().find(Instructor.class, id);
 
+    
     }
     @Override
     public void editStudent(Student student){

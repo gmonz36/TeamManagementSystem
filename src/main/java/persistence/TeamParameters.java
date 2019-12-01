@@ -25,6 +25,9 @@ public class TeamParameters implements Serializable{
     int maxStudents;
     String deadline;
 
+    public TeamParameters() {
+    }
+
     public String getCourseCode() {
         return courseCode;
     }

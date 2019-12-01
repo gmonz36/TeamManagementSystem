@@ -20,6 +20,7 @@ public class Course implements Serializable{
     
     @Id
     String courseCode;
+    String InstructorId;
 
     public String getCourseCode() {
         return courseCode;
@@ -27,6 +28,14 @@ public class Course implements Serializable{
 
     public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
+    }
+
+    public String getInstructorId() {
+        return InstructorId;
+    }
+
+    public void setInstructorId(String InstructorId) {
+        this.InstructorId = InstructorId;
     }
     
     

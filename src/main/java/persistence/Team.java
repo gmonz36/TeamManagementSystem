@@ -30,18 +30,41 @@ public class Team implements Serializable{
     String teamId;
     String teamName;
     LocalDate dateOfCreation;
-    boolean teamStatus;
+    String teamStatus;
     String liaisonId;
     String membersString;
+
+
+    public Team() {
+    }
+
+    public Team(String courseCode, String teamId, LocalDate dateOfCreation, String teamStatus, String liaisonId) {
+        this.courseCode = courseCode;
+        this.teamId = teamId;
+        this.dateOfCreation = dateOfCreation;
+        this.teamStatus = teamStatus;
+        this.liaisonId = liaisonId;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
 
     public String getTeamId() {
         return teamId;
     }
 
+
     public void setTeamId() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Student user = (Student)session.getAttribute("User");
         this.teamId = getCourseCode()+user.getUserId();
+
     }
 
     public String getTeamName() {
@@ -56,15 +79,18 @@ public class Team implements Serializable{
         return dateOfCreation;
     }
 
+
     public void setDateOfCreation() {
         this.dateOfCreation = java.time.LocalDate.now();
     }
 
-    public boolean getTeamStatus () {
+   
+
+    public String getTeamStatus() {
         return teamStatus;
     }
 
-    public void set_teamStatus(boolean teamStatus) {
+    public void setTeamStatus(String teamStatus) {
         this.teamStatus = teamStatus;
     }
 
@@ -74,17 +100,11 @@ public class Team implements Serializable{
 
     public void setLiaisonId(String liaisonId) {
         this.liaisonId = liaisonId;
+
     }
     
 
-    
-    public String getCourseCode() {
-        return courseCode;
-    }
 
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    } 
     
     public String getMembersString() {
         return membersString;
@@ -94,3 +114,5 @@ public class Team implements Serializable{
         this.membersString = membersString;
     } 
 }
+
+
