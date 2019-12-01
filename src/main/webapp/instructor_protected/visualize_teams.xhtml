@@ -10,10 +10,29 @@
         <ui:composition template="./../instructor_template.xhtml">
 
             <ui:define name="content">
-           <f:view>
-              
-        </f:view>
+             
+                <f:view>
+                    <h1>Teams</h1>
+                    <h:form>
+                        <h:dataTable  cellpadding="10pt"  value="#{visualizeTeamsBean.teams}" var="book">
+                            <h:column>
+                               <h:outputText value="#{team.teamName}"/>
+                            </h:column>
+                            <h:column>
+                                <h:outputText value="#{team.teamId}"/>
+                            </h:column>
+                            <h:column>
+                                <h:outputText value="#{team.teamStatus}"/>
+                            </h:column>
+                            <h:column>
+                                <h:outputText value="#{team.dateOfCreation}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </f:view>
+
             </ui:define>
+
 
         </ui:composition>
 

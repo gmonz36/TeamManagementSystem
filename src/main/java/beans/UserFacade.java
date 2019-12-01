@@ -18,6 +18,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import javax.persistence.Query;
+import persistence.Course;
 import persistence.Student;
 import persistence.Instructor;
 
@@ -123,6 +124,25 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
         return getEntityManager().find(Student.class, id);
 
     }
+    @Override
+    public Course findCourseCode(Object id){
+        try {
+            Query query = em.createQuery(
+                "SELECT u.courseCode FROM Course u" +
+                " WHERE u.instructorId = :InsID");
+            query.setParameter("InsID",id);
+            String courseCode = (String) query.getSingleResult();
+            
+            return getEntityManager().find(Course.class, courseCode);
+
+            
+        } catch (Exception e) {
+        }
+        return null;
+        
+    
+    }
+    
     @Override
     public Instructor findInstructor(Object id) {
         return getEntityManager().find(Instructor.class, id);

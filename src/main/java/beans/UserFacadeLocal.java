@@ -13,6 +13,7 @@ import persistence.Student;
 import persistence.Instructor;
 import java.util.List;
 import javax.ejb.Local;
+import persistence.Course;
 
 /**
  *
@@ -48,6 +49,6 @@ public interface UserFacadeLocal {
 
     int count();
     
-    
+    public Course findCourseCode(Object id);
     
 }
