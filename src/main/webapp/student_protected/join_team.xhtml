@@ -11,17 +11,27 @@
 
             <ui:define name="content">
            <f:view>
-           <form>
+           <h:form>
                 <ui:repeat value="#{joinTeamBean.teamId}" var="teamId">
+                    <table>
+                    <column>
                         <h:selectBooleanCheckbox value="#{JoinTeamBean.checkMap[teamId]}">
                             <f:ajax event="click" execute="@form" render="@form"> </f:ajax>
                         </h:selectBooleanCheckbox>
+                    </column>
+                    <column>
+                       <h:outputText value="#{teamId}"/>
+                    </column>
+                    <column>
+                        <h:outputText value="#{team.teamName}"/>
+                    </column>
+                    <column>
+                        <h:outputText value="#{team.dateOfCreation}"/>
+                    </column>
+                    </table>
                 </ui:repeat>
-               
-                <!--<input type="submit" value="Send Requests"></input>-->
-                <!--<input type="button" onclick="myFunction()" value="Send Requests"></input>-->
-                <h:commandButton value="Update" action="refresh" />
-            </form>
+               <h:commandButton value="Send Requests" type="command" actionListener="#{joinTeamBean.sendRequests()}" />
+            </h:form>
         </f:view>
             </ui:define>
 
