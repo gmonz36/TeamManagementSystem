@@ -17,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import javax.persistence.Query;
 import persistence.Student;
 import persistence.Instructor;
 
@@ -117,30 +118,44 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
              }
          }    
     }
-    
     @Override
     public Student findStudent(Object id) {
         return getEntityManager().find(Student.class, id);
+
     }
-    
     @Override
     public Instructor findInstructor(Object id) {
         return getEntityManager().find(Instructor.class, id);
+
+    
     }
+    @Override
+    public void editStudent(Student student){
+        try {
+            Query query = em.createQuery(
+                "UPDATE Student u " +
+                "SET u.teamId =:StudentTeamID"+
+                " WHERE u.userId = :StudentID");
+            query.setParameter("StudentID",student.getUserId());
+            query.setParameter("StudentTeamID",student.getTeamId());
+            query.executeUpdate();
+
+//            Query query = em.createQuery(
+//                "UPDATE Student u " +
+//                "SET u.teamId ='aaaaa'");
+//            query.executeUpdate();
+           
+           
+        } catch (Exception e) {
+            System.out.println("ERROR IN EDIT STUDENT");
+            System.out.println(e.getMessage());
+        }
+
+    }
+ 
+                           
+                            
+
     
 
-    @Override
-    public List<User> findById(String id) {
-//        try {
-//            Query query = em.createQuery(
-//                "SELECT u FROM Item u" +
-//                " WHERE u.category = :ItemCategory");
-//            query.setParameter("ItemCategory",category);
-//
-//            List resultList = query.getResultList();
-//            return resultList;
-//        } catch (Exception e) {
-//        }
-        return null;
-    }    
 }

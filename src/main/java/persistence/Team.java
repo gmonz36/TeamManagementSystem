@@ -6,12 +6,14 @@
 package persistence;
 
 import java.io.Serializable;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import javax.faces.context.FacesContext;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -20,64 +22,29 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="TEAM_TABLE8930730")
+
 public class Team implements Serializable{
     
-    @Id
+    
     String courseCode;
     @Id
     String teamId;
     String teamName;
     LocalDate dateOfCreation;
-    boolean teamStatus;
+    String teamStatus;
     String liaisonId;
-    Student[] members;
+    String membersString;
 
-    public String get_teamId() {
-        return teamId;
+
+    public Team() {
     }
 
-    public void set_teamId(String teamId) {
+    public Team(String courseCode, String teamId, LocalDate dateOfCreation, String teamStatus, String liaisonId) {
+        this.courseCode = courseCode;
         this.teamId = teamId;
-    }
-
-    public String get_teamName() {
-        return teamName;
-    }
-
-    public void set_teamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public LocalDate get_dateOfCreation() {
-        return dateOfCreation;
-    }
-
-    public void set_dateOfCreation() {
-        this.dateOfCreation = java.time.LocalDate.now();
-    }
-
-    public boolean get_teamStatus () {
-        return teamStatus;
-    }
-
-    public void set_teamStatus(boolean teamStatus) {
+        this.dateOfCreation = dateOfCreation;
         this.teamStatus = teamStatus;
-    }
-
-    public String get_liaisonId() {
-        return liaisonId;
-    }
-
-    public void set_liaisonId(String liaisonId) {
         this.liaisonId = liaisonId;
-    }
-    
-    public Student[] get_members() {
-        return members;
-    }
-
-    public void set_members(Student[] members) {
-        this.members = members;
     }
 
     public String getCourseCode() {
@@ -87,8 +54,64 @@ public class Team implements Serializable{
     public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
     }
+
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public LocalDate getDateOfCreation() {
+        return dateOfCreation;
+    }
+
+
+    public void setDateOfCreation() {
+        this.dateOfCreation = java.time.LocalDate.now();
+    }
+
+   
+
+    public String getTeamStatus() {
+        return teamStatus;
+    }
+
+    public void setTeamStatus(String teamStatus) {
+        this.teamStatus = teamStatus;
+    }
+
+    public String getLiaisonId() {
+        return liaisonId;
+    }
+
+    public void setLiaisonId(String liaisonId) {
+        this.liaisonId = liaisonId;
+
+    }
     
+
+
     
-    
-    
+    public String getMembersString() {
+        return membersString;
+    }
+
+    public void setMembersString(String membersString) {
+        this.membersString = membersString;
+    } 
 }
+
+
