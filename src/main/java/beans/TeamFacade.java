@@ -102,5 +102,4 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
             create(re);   
     }
     
-    
 }

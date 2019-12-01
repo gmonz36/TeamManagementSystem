@@ -40,7 +40,7 @@ public class Team implements Serializable{
         this.teamStatus = teamStatus;
         this.liaisonId = liaisonId;
     }
-    
+
     public String getCourseCode() {
         return courseCode;
     }
