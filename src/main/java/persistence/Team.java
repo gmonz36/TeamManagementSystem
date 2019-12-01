@@ -26,11 +26,14 @@ public class Team implements Serializable{
     String teamId;
     String teamName;
     LocalDate dateOfCreation;
-    boolean teamStatus;
+    String teamStatus;
     String liaisonId;
     Student[] members;
 
-    public Team(String courseCode, String teamId, LocalDate dateOfCreation, boolean teamStatus, String liaisonId) {
+    public Team() {
+    }
+
+    public Team(String courseCode, String teamId, LocalDate dateOfCreation, String teamStatus, String liaisonId) {
         this.courseCode = courseCode;
         this.teamId = teamId;
         this.dateOfCreation = dateOfCreation;
@@ -70,11 +73,11 @@ public class Team implements Serializable{
         this.dateOfCreation = dateOfCreation;
     }
 
-    public boolean isTeamStatus() {
+    public String getTeamStatus() {
         return teamStatus;
     }
 
-    public void setTeamStatus(boolean teamStatus) {
+    public void setTeamStatus(String teamStatus) {
         this.teamStatus = teamStatus;
     }
 

@@ -32,9 +32,6 @@ public interface TeamFacadeLocal {
 
     int count();
     
-    
-    public List<Object> findById(String id);
-    
     public void addTeamParams(String courseCode,int min_students,int max_students,String deadline);
     
     public List<Team> getTeams(String courseCode);

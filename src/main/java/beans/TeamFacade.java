@@ -34,35 +34,16 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
 
     public TeamFacade() {
         super(Object.class);
-    }
-
+    }  
     
-
     @Override
-    public List<Object> findById(String id) {
-//        try {
-//            Query query = em.createQuery(
-//                "SELECT u FROM Item u" +
-//                " WHERE u.category = :ItemCategory");
-//            query.setParameter("ItemCategory",category);
-//
-//            List resultList = query.getResultList();
-//            return resultList;
-//        } catch (Exception e) {
-//        }
-        return null;
-    }    
-    
     public void addTeamParams(String courseCode,int min_students,int max_students,String deadline){
-    
-        
             TeamParameters tp = new TeamParameters();
             tp.setCourseCode(courseCode);
             tp.setMinStudents(min_students);
             tp.setMaxStudents(max_students);
             tp.setDeadline(deadline);
             create(tp);
-        
     }
     
     @Override
@@ -114,14 +95,11 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
     @Override
     //Creates a Request
     public void createRequest(String status, String userId, String teamId){
-    
         Request re = new Request();
             re.setStatus(status);
             re.setStudentId(userId);
             re.setTeamId(teamId);
-            create(re);
-        
-        
+            create(re);   
     }
     
     

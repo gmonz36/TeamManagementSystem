@@ -11,7 +11,7 @@
 
             <ui:define name="content">
            <f:view>
-            <form action="#{joinTeamBean.sendRequests()}">
+           <form action="#{joinTeamBean.sendRequests()}">
                 <h:dataTable  cellpadding="10pt"  value="#{joinTeamBean.teams}" var="team">
                     <h:column>
                         <input type="checkbox" value="#{team.teamId}"></input>

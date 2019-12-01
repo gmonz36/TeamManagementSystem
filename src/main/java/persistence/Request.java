@@ -20,15 +20,9 @@ import javax.persistence.Table;
 public class Request implements Serializable{
     
     @Id @GeneratedValue long id;
-    boolean status;
+    String status;
     String studentId;
     String teamId;
-
-    public Request(boolean status, String studentId, String teamId) {
-        this.status = status;
-        this.studentId = studentId;
-        this.teamId = teamId;
-    }
 
     public String getStudentId() {
         return studentId;
@@ -54,11 +48,11 @@ public class Request implements Serializable{
         this.id = id;
     }
 
-    public boolean isStatus() {
+    public String isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
     

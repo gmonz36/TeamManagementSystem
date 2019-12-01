@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import persistence.Course;
@@ -24,14 +25,15 @@ import persistence.Team;
  * @author aman
  */
 @Named(value = "joinTeamBean")
-@Dependent
+@RequestScoped
 public class JoinTeamBean {
     @EJB
     private TeamFacadeLocal teamFacade;
     
     private ArrayList<Team> teams;
     private Student student;
-    private Course course;
+    private Course course; 
+    
     /**
      * Creates a new instance of JoinTeamBean
      */
@@ -39,24 +41,35 @@ public class JoinTeamBean {
     }
     
     public String getIncompleteTeam(){
-        FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle bundle = context.getApplication().getResourceBundle(context, "msg");
-        teams = new ArrayList<>();
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        Student student = (Student) session.getAttribute("User");
-        course = findCourse(student.getSectionCode());
-        List<Team> resultList = teamFacade.getIncompleteTeams(course);
-        if(resultList!=null){
-            for(Team team : resultList){
-                Team x = team;
-                teams.add(new Team(x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.isTeamStatus(), x.getLiaisonId()));
+        try{
+            teams = new ArrayList<>();
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            Student student = (Student) session.getAttribute("User");
+            course = teamFacade.findCourse(student.getSectionCode());
+            if(teamFacade.getTeams(course.getCourseCode())!=null){
+                List<Team> resultList = teamFacade.getTeams(course.getCourseCode());
+                for(Team team : resultList){
+                    Team x = team;
+                    teams.add(new Team(x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
+                }
             }
-        }
+        }catch(Exception e){}  
         return "join_team";
     }
     
     public String sendRequests(){
-        return "";
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Student student = (Student) session.getAttribute("User");
+        //createRequest("pending", student.getUserId(), teamId);
+        return "create_team";
+    }
+
+    public ArrayList<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(ArrayList<Team> teams) {
+        this.teams = teams;
     }
     
 }
