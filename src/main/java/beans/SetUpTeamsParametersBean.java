@@ -75,8 +75,9 @@ public class SetUpTeamsParametersBean {
             tp.setCourseCode(courseCode);
             persist(tp);
             
-            FacesContext.getCurrentInstance().getExternalContext().redirect("faces/instructor_protected/visualize_teams.xhtml");
-        } catch(IOException ex) {
+            status = "Team parameters setup succesfully";
+        } catch(Exception ex) {
+            status = "Could not setup team parameters";
             return "error";
         }
         return "confirm";
