@@ -133,16 +133,22 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
     public void editStudent(Student student){
         try {
             Query query = em.createQuery(
-      
-                "UPDATE u FROM Student u" +
-                "SET u.teamid =:StudentTeamID"+
-                " WHERE u.userid = :StudentID");
+                "UPDATE Student u " +
+                "SET u.teamId =:StudentTeamID"+
+                " WHERE u.userId = :StudentID");
             query.setParameter("StudentID",student.getUserId());
             query.setParameter("StudentTeamID",student.getTeamId());
+            query.executeUpdate();
 
+//            Query query = em.createQuery(
+//                "UPDATE Student u " +
+//                "SET u.teamId ='aaaaa'");
+//            query.executeUpdate();
            
            
         } catch (Exception e) {
+            System.out.println("ERROR IN EDIT STUDENT");
+            System.out.println(e.getMessage());
         }
 
     }

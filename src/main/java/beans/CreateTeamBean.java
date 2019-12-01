@@ -5,26 +5,19 @@
  */
 package beans;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.annotation.Resource;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpSession;
 import persistence.Student;
-import persistence.User;
 
 import persistence.Team;
 import persistence.TeamParameters;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import javax.ejb.EJB;
-import persistence.Instructor;
+import persistence.Course;
 
 /**
  *
@@ -47,10 +40,10 @@ public class CreateTeamBean {
         private LocalDate dateOfCreation;
         private boolean teamStatus;
         private String liaisonId;
-        private ArrayList<String> members;
         private String membersString;
         private String courseCode;
-        
+
+
 
     @Resource
     private javax.transaction.UserTransaction utx;
@@ -63,17 +56,17 @@ public class CreateTeamBean {
         
         
     }
-    
-     
+   
+       
     public void createTeam(){
-        
+
         try {
+            courseCode=getCourseCode();
             Team team = new Team();
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Student user = (Student)session.getAttribute("User");
             team.setLiaisonId(user.getUserId());
 
-            team.setCourseCode(courseCode);
             TeamParameters params = teamFacade.findTeamParams(courseCode);
 
 
@@ -81,46 +74,60 @@ public class CreateTeamBean {
                 status="Invalid Course, please try again";
              } else {
             
-                
                 team.setDateOfCreation();
                 team.setTeamName(teamName);
                 
                 
                 membersString = membersString.replaceAll("\\s", ""); 
-                
+                boolean flag = true;
                 String[] tmp_members = membersString.split(",");
- 
                 for (int i=0; i<tmp_members.length; i++){
-                   
                     Student student = (Student)userFacade.findStudent(tmp_members[i]);
                     if (student == null){
                         throw new Exception();
+                        
                     }
-                    else if(i>params.getMaxStudents()-1){
-                        status="Number of team members exceeds limit";
+                    else if(student.getTeamId()!=null){
+                        flag=false;
+                        status="One of the students is already in a team";
+                    }
+                }
+                if (flag){
+                    for (int i=0; i<tmp_members.length; i++){
+
+                        Student student = (Student)userFacade.findStudent(tmp_members[i]);
+                        
+                        if(i>params.getMaxStudents()-1){
+                            status="Number of team members exceeds limit";
+                        }
+
+                        else{
+                            student.setTeamId(getCourseCode()+user.getUserId());
+                            userFacade.editStudent(student);
+                        }
+                    }
+                    user.setTeamId( getCourseCode()+user.getUserId());
+                    userFacade.editStudent(user);
+
+
+                    team.setTeamId(getCourseCode()+user.getUserId());
+
+                    team.setCourseCode(courseCode);
+
+                    if(tmp_members.length+1<params.getMinStudents()){
+                        team.setTeamStatus("incomplete");
+                    }
+                    else if(tmp_members.length+1<params.getMaxStudents()){
+                        team.setTeamStatus("valid");
                     }
                     else{
-                        members.add(tmp_members[i]);
+                        team.setTeamStatus("complete");
                     }
-                }
-                members.add(user.getUserId());
-                
-                        
-                        
-                team.setMembers(members);
-                team.setTeamId();
-                team.setCourseCode(courseCode);
 
-                if(members.size()<params.getMaxStudents()){
-                    team.set_teamStatus(false);
+
+                    teamFacade.addTeam(team);
+                    status="team created";
                 }
-                else{
-                    team.set_teamStatus(true);
-                }
-               
-                
-                teamFacade.addTeam(team);
-                status="team created";
             }
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -136,11 +143,12 @@ public class CreateTeamBean {
         return teamId;
     }
 
-    public void setTeamId() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        Student user = (Student)session.getAttribute("User");
+    public void setTeamId(String teamId) {
 
-        this.teamId = courseCode+user.getUserId(); 
+
+        this.teamId = teamId;
+       
+        
     }
 
     public String getTeamName() {
@@ -175,21 +183,17 @@ public class CreateTeamBean {
         this.liaisonId = liaisonId;
     }
     
-    public ArrayList<String> getMembers() {
-        return members;
-    }
-
-    public void setMembers(ArrayList<String> members) {
-        this.members = members;
-    }
     
     public String getCourseCode() {
-        return courseCode;
+        
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Student student = (Student) session.getAttribute("User");
+   
+        Course course = teamFacade.findCourse(student.getSectionCode());
+        return course.getCourseCode();
     }
 
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    } 
+
       public String getMembersString() {
         return membersString;
     }

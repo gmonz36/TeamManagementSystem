@@ -25,8 +25,9 @@ import javax.servlet.http.HttpSession;
 
 public class Team implements Serializable{
     
-    @Id
+    
     String courseCode;
+    @Id
     String teamId;
     String teamName;
     LocalDate dateOfCreation;
@@ -60,10 +61,8 @@ public class Team implements Serializable{
     }
 
 
-    public void setTeamId() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        Student user = (Student)session.getAttribute("User");
-        this.teamId = getCourseCode()+user.getUserId();
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
 
     }
 
