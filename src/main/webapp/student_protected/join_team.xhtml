@@ -11,38 +11,17 @@
 
             <ui:define name="content">
            <f:view>
-           <form action="#{joinTeamBean.sendRequests()}">
-                <h:dataTable  cellpadding="10pt"  value="#{joinTeamBean.teams}" var="team">
-                    <h:column>
-                        <input type="checkbox" name="id" value="#{team.teamId}"></input>
-                    </h:column>
-                    <h:column>
-                       <h:outputText value="#{team.teamId}"/>
-                    </h:column>
-                    <h:column>
-                        <h:outputText value="#{team.teamName}"/>
-                    </h:column>
-                    <h:column>
-                        <h:outputText value="#{team.dateOfCreation}"/>
-                    </h:column>
-                </h:dataTable>
+           <form>
+                <ui:repeat value="#{joinTeamBean.teamId}" var="teamId">
+                        <h:selectBooleanCheckbox value="#{JoinTeamBean.checkMap[teamId]}">
+                            <f:ajax event="click" execute="@form" render="@form"> </f:ajax>
+                        </h:selectBooleanCheckbox>
+                </ui:repeat>
+               
                 <!--<input type="submit" value="Send Requests"></input>-->
-                <input type="button" onclick="myFunction()" value="Send Requests"></input>
+                <!--<input type="button" onclick="myFunction()" value="Send Requests"></input>-->
+                <h:commandButton value="Update" action="refresh" />
             </form>
-            <script>
-                function myFunction() {
-                    String[] teams;
-                    int j = 0;
-                    var id = document.forms[0];
-                    for (int i = 0; i < id.length; i++) {
-                        if (id[i].checked) {
-                            //add it to an array
-                            teams[j++] = id[i];
-                        } 
-                    }
-                    
-                }
-            </script>
         </f:view>
             </ui:define>
 
