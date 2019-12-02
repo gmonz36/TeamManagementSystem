@@ -7,6 +7,7 @@ package beans;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -14,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import persistence.Course;
 import persistence.Instructor;
+import persistence.Student;
 import persistence.Team;
 
 /**
@@ -29,7 +31,7 @@ public class VisualizeTeamsBean {
     private UserFacadeLocal userFacade;
     
     private ArrayList<Team> teams;
-
+    private HashMap<String, ArrayList<String>> members;
     
     /**
      * Creates a new instance of JoinTeamBean
@@ -38,20 +40,37 @@ public class VisualizeTeamsBean {
     }
     
     
-    public void getCourseTeams(){
+    public String getCourseTeams(){
         try{
             teams = new ArrayList<>();
+            members = new HashMap();
+           
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Instructor ins = (Instructor) session.getAttribute("User");
             
-            if((teamFacade.getTeams(userFacade.findCourseCode(ins))!=null)){
-                List<Team> resultList = teamFacade.getTeams(userFacade.findCourseCode(ins));
+
+            if((teamFacade.getTeams(userFacade.findCourseCode(ins.getUserId()).getCourseCode())!=null)){
+                List<Team> resultList = teamFacade.getTeams(userFacade.findCourseCode(ins.getUserId()).getCourseCode());
                 for(Team team : resultList){
                     Team x = team;
-                    teams.add(new Team(x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
+                    members.clear();
+                    List<Student> students = userFacade.getStudentsInTeam(x.getTeamId());
+                    ArrayList<String> studentIds = new ArrayList<>();
+                    for (Student student: students){
+                        studentIds.add(student.getUserId());
+                    }
+                    members.put(x.getTeamId(), studentIds);
+                   
+                    
+                    
+                    
+                    teams.add(new Team(x.getTeamName(), x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
                 }
             }
-        }catch(Exception e){}  
+        }catch(Exception e){
+           System.out.println(e.getMessage());
+        }  
+        return "visualize_teams";
     }
     
    
@@ -63,6 +82,14 @@ public class VisualizeTeamsBean {
 
     public void setTeams(ArrayList<Team> teams) {
         this.teams = teams;
+    }
+    
+    public HashMap getMembers() {
+        return members;
+    }
+
+    public void setMembers(HashMap  members) {
+        this.members = members;
     }
     
     

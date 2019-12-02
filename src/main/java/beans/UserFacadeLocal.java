@@ -49,6 +49,8 @@ public interface UserFacadeLocal {
 
     int count();
     
-    public Course findCourseCode(Object id);
+    public Course findCourseCode(String id);
+    public List<Student> getStudentsInTeam(String teamId);
+
     
 }

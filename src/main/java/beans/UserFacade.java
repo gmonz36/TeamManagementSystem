@@ -125,7 +125,7 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
 
     }
     @Override
-    public Course findCourseCode(Object id){
+    public Course findCourseCode(String id){
         try {
             Query query = em.createQuery(
                 "SELECT u.courseCode FROM Course u" +
@@ -137,11 +137,16 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
 
             
         } catch (Exception e) {
+            System.out.println(e.getMessage());
+            
         }
         return null;
         
     
     }
+
+    
+    
     
     @Override
     public Instructor findInstructor(Object id) {
@@ -159,19 +164,28 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
             query.setParameter("StudentID",student.getUserId());
             query.setParameter("StudentTeamID",student.getTeamId());
             query.executeUpdate();
-
-//            Query query = em.createQuery(
-//                "UPDATE Student u " +
-//                "SET u.teamId ='aaaaa'");
-//            query.executeUpdate();
-           
+      
            
         } catch (Exception e) {
-            System.out.println("ERROR IN EDIT STUDENT");
             System.out.println(e.getMessage());
         }
 
     }
+    
+    @Override
+    public List<Student> getStudentsInTeam(String teamId){
+        
+        Query query = em.createQuery(
+                "SELECT u FROM Student u" +
+                " WHERE u.teamId = :TeamID");
+            query.setParameter("TeamID",teamId);
+            List resultList = query.getResultList();
+            return resultList;
+        
+        
+        
+    }
+    
  
                            
                             

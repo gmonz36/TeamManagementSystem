@@ -42,7 +42,7 @@ public interface TeamFacadeLocal {
     public void addTeamParams(String courseCode,int min_students,int max_students,String deadline);
 
     
-    public List<Team> getTeams(Course course);
+    public List<Team> getTeams(String courseCode);
             
     public List<Team> getIncompleteTeams(String courseCode);
     

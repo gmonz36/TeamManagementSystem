@@ -68,8 +68,7 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
 
     @Override
     //Returns list of all teams from a class
-    public List<Team> getTeams(Course course){
-        String courseCode = course.getCourseCode();
+    public List<Team> getTeams(String courseCode){
         Query query = em.createQuery(
                 "SELECT u FROM Team u" +
                 " WHERE u.courseCode = :CourseCode");

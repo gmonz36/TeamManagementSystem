@@ -20,7 +20,7 @@ public class Course implements Serializable{
     
     @Id
     String courseCode;
-    String InstructorId;
+    String instructorId;
 
     public String getCourseCode() {
         return courseCode;
@@ -31,11 +31,11 @@ public class Course implements Serializable{
     }
 
     public String getInstructorId() {
-        return InstructorId;
+        return instructorId;
     }
 
     public void setInstructorId(String InstructorId) {
-        this.InstructorId = InstructorId;
+        this.instructorId = InstructorId;
     }
     
     
