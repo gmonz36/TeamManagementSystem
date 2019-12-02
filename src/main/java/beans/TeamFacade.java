@@ -134,5 +134,26 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
         return true;
     }
     
+    @Override
+    //Checks if team name is duplicate
+    public boolean teamNameAlreadyExists(String teamName){
+    
+         try{
+         Query query = em.createQuery(
+                "SELECT u FROM Team u" +
+                " WHERE u.teamName = :TeamName");
+            query.setParameter("TeamName",teamName);
+            
+            if(query.getResultList().isEmpty()){
+                return false;
+            }else{
+                return true;
+            }     
+        }
+        catch(Exception e){
+        }
+        return true;
+    }
+    
     
 }
