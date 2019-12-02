@@ -11,6 +11,8 @@ import java.util.List;
 import javax.ejb.Local;
 import persistence.TeamParameters;
 import persistence.Course;
+import persistence.Request;
+import persistence.Student;
 
 /**
  *
@@ -53,5 +55,11 @@ public interface TeamFacadeLocal {
     public boolean requestExists(String studentId, String teamId);
     
     public boolean teamNameAlreadyExists(String teamName);
+    
+    public boolean isLiaison(Student student);
+    
+    public List<Request> getRequests (String teamId);
+    
+    public void acceptStudent(String studentId, String teamId);
     
 }
