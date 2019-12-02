@@ -16,7 +16,7 @@
                     <table>
                     <column>
                         <h:selectBooleanCheckbox value="#{joinTeamBean.checkMap[teamId]}" >
-                            <f:ajax event="click" > </f:ajax>
+                            <f:ajax event="click"> </f:ajax>
                         </h:selectBooleanCheckbox>
                     </column>
                     <column>
@@ -30,8 +30,10 @@
                     </column>
                     </table>
                 </ui:repeat>
-               <h:commandButton value="Send Requests" type="command" actionListener="#{joinTeamBean.sendRequests()}" />
-            </h:form>
+                <h:commandButton value="Send Requests" type="command" actionListener="#{joinTeamBean.sendRequests()}" />
+                <br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusBad" value="#{joinTeamBean.statusBad}"/> 
+                <br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusGood" value="#{joinTeamBean.statusGood}"/>
+           </h:form>
         </f:view>
             </ui:define>
 

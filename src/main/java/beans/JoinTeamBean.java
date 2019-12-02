@@ -36,8 +36,11 @@ public class JoinTeamBean {
     private ArrayList<Team> teams;
     private Student student;
     private Course course; 
-    private List<String> teamId = new ArrayList<>();
-    private Map<String, Boolean> checkMap = new HashMap<>();
+    private List<String> teamId;
+    private Map<String, Boolean> checkMap;
+    private String statusGood;
+    private String statusBad;
+
     
     /**
      * Creates a new instance of JoinTeamBean
@@ -60,6 +63,8 @@ public class JoinTeamBean {
             }
             
             //checkboxes
+            teamId = new ArrayList<>();
+            checkMap = new HashMap<>();
             for (Team team : teams){
                 teamId.add(team.getTeamId());
             }
@@ -73,15 +78,45 @@ public class JoinTeamBean {
         return "join_team";
     }
     
-    public String sendRequests(){
-        System.out.println("HERE");
-        getSelected();
+    public void sendRequests(){
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Student student = (Student) session.getAttribute("User");
-        //createRequest("pending", student.getUserId(), teamId);
-        return "create_team";
+        int good=0, bad=0;
+        for (String id : getSelected()) {
+            if(requestExists(student.getUserId(), id)){
+                bad++;
+            }else{
+                teamFacade.createRequest("pending", student.getUserId(), id);
+                good++;
+            }
+        }
+ 
+        if(bad>0){
+            statusBad = bad+" requests were not sent because you already have pending request with the team(s)";
+        }
+        if(good>0){
+            statusGood = good+" request(s) were sent successfully";
+        }
     }
 
+    public ArrayList<String> getSelected() {
+        ArrayList<String> result = new ArrayList<>();
+        for (Entry<String, Boolean> entry : checkMap.entrySet()) {
+            if (entry.getValue()) {
+                System.out.println("once");
+                result.add(entry.getKey());
+            }
+        }
+        return result;
+    }
+
+    public Map<String, Boolean> getCheckMap() {
+        return checkMap;
+    }
+    
+    /*
+    * Getters and setters
+    */
     public ArrayList<Team> getTeams() {
         return teams;
     }
@@ -98,23 +133,20 @@ public class JoinTeamBean {
         this.teamId = teamId;
     }
 
-    public String getSelected() {
-        String result = "";
-        for (Entry<String, Boolean> entry : checkMap.entrySet()) {
-            if (entry.getValue()) {
-                System.out.println("once");
-                result = result + ", " + entry.getKey();
-            }
-        }
-        if (result.length() == 0) {
-            return "";
-        } else {
-            return result.substring(2);
-        }
+    public String getStatusGood() {
+        return statusGood;
     }
 
-    public Map<String, Boolean> getCheckMap() {
-        return checkMap;
+    public void setStatusGood(String statusGood) {
+        this.statusGood = statusGood;
+    }
+
+    public String getStatusBad() {
+        return statusBad;
+    }
+
+    public void setStatusBad(String statusBad) {
+        this.statusBad = statusBad;
     }
     
 }
