@@ -114,19 +114,16 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
             query.setParameter("StudentID",studentId);
             query.setParameter("TeamID",teamId);
             
-            if(query.getSingleResult()!=null){
-                return true;
-            }else{
+            if(query.getResultList().isEmpty()){
                 return false;
-            }
-                                    
+            }else{
+                return true;
+            }                          
         }
         catch(Exception e){
-        
+             System.out.println(e.getMessage());
         }
-            
-        
-        return false;
+        return true;
     }
     
     

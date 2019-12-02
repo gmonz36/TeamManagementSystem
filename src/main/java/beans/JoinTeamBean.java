@@ -79,11 +79,13 @@ public class JoinTeamBean {
     }
     
     public void sendRequests(){
+        statusBad = "";
+        statusGood = "";
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Student student = (Student) session.getAttribute("User");
         int good=0, bad=0;
         for (String id : getSelected()) {
-            if(requestExists(student.getUserId(), id)){
+            if(teamFacade.requestExists(student.getUserId(), id)){
                 bad++;
             }else{
                 teamFacade.createRequest("pending", student.getUserId(), id);
@@ -92,10 +94,10 @@ public class JoinTeamBean {
         }
  
         if(bad>0){
-            statusBad = bad+" requests were not sent because you already have pending request with the team(s)";
+            statusBad = bad+" request(s) was/were not sent because you already have pending request with the team(s)";
         }
         if(good>0){
-            statusGood = good+" request(s) were sent successfully";
+            statusGood = good+" request(s) was/were sent successfully";
         }
     }
 
@@ -103,7 +105,6 @@ public class JoinTeamBean {
         ArrayList<String> result = new ArrayList<>();
         for (Entry<String, Boolean> entry : checkMap.entrySet()) {
             if (entry.getValue()) {
-                System.out.println("once");
                 result.add(entry.getKey());
             }
         }
