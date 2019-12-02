@@ -42,4 +42,6 @@ public interface TeamFacadeLocal {
     
     public void createRequest(String status, String userId, String teamId);
     
+    public boolean requestExists(String studentId, String teamId);
+    
 }
