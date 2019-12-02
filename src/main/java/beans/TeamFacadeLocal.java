@@ -52,4 +52,6 @@ public interface TeamFacadeLocal {
     
     public boolean requestExists(String studentId, String teamId);
     
+    public boolean teamNameAlreadyExists(String teamName);
+    
 }
