@@ -55,7 +55,7 @@ public class JoinTeamBean {
             Student student = (Student) session.getAttribute("User");
             course = teamFacade.findCourse(student.getSectionCode());
             if(teamFacade.getTeams(course.getCourseCode())!=null){
-                List<Team> resultList = teamFacade.getTeams(course.getCourseCode());
+                List<Team> resultList = teamFacade.getIncompleteTeams(course.getCourseCode());
                 for(Team team : resultList){
                     Team x = team;
                     teams.add(new Team(x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
@@ -83,21 +83,26 @@ public class JoinTeamBean {
         statusGood = "";
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Student student = (Student) session.getAttribute("User");
-        int good=0, bad=0;
-        for (String id : getSelected()) {
-            if(teamFacade.requestExists(student.getUserId(), id)){
-                bad++;
-            }else{
-                teamFacade.createRequest("pending", student.getUserId(), id);
-                good++;
+        
+        if(student.getTeamId()!=null){
+            statusBad = "You are already part of a team";
+        }else{
+            int good=0, bad=0;
+            for (String id : getSelected()) {
+                if(teamFacade.requestExists(student.getUserId(), id)){
+                    bad++;
+                }else{
+                    teamFacade.createRequest("pending", student.getUserId(), id);
+                    good++;
+                }
             }
-        }
- 
-        if(bad>0){
-            statusBad = bad+" request(s) was/were not sent because you already have pending request with the team(s)";
-        }
-        if(good>0){
-            statusGood = good+" request(s) was/were sent successfully";
+
+            if(bad>0){
+                statusBad = bad+" request(s) was/were not sent because you already have pending request with the team(s)";
+            }
+            if(good>0){
+                statusGood = good+" request(s) was/were sent successfully";
+            }
         }
     }
 
