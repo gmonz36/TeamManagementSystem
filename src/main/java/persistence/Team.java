@@ -46,6 +46,16 @@ public class Team implements Serializable{
         this.teamStatus = teamStatus;
         this.liaisonId = liaisonId;
     }
+    
+    
+    public Team(String teamName, String courseCode, String teamId, LocalDate dateOfCreation, String teamStatus, String liaisonId) {
+        this.courseCode = courseCode;
+        this.teamId = teamId;
+        this.dateOfCreation = dateOfCreation;
+        this.teamStatus = teamStatus;
+        this.liaisonId = liaisonId;
+        this.teamName = teamName;
+    }
 
     public String getCourseCode() {
         return courseCode;

@@ -83,7 +83,7 @@ public class LogInBean {
 
                 } else {
                    session.setAttribute("User", userFacade.findInstructor(userId)); 
-                   FacesContext.getCurrentInstance().getExternalContext().redirect("faces/instructor_protected/visualize_teams.xhtml");
+                   FacesContext.getCurrentInstance().getExternalContext().redirect("faces/instructor_protected/menu.xhtml");
 
                 }
 

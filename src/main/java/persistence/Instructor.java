@@ -10,5 +10,5 @@ import javax.persistence.Table;
 @Entity
 @Table(name="INSTRUCTOR_TABLE8930730")
 public class Instructor extends User  {
-    
+      
 }
