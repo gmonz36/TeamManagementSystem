@@ -179,9 +179,15 @@ public class SignUpBean {
             }
             else if(type.equals("Instructor")) {
                 courseCode = userFacade.getCourseCode();
-                userFacade.addInstructor(userId, firstname, lastname, password, courseCode);
-                status="New Instructor Created Fine"; 
-                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+                if (userFacade.findCourseInstructor(courseCode) != null){
+                    status="Instructor for course already exists"; 
+                }
+                else{
+                    userFacade.addInstructor(userId, firstname, lastname, password, courseCode);
+                    status="New Instructor Created Fine"; 
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+                }
+                
             } else {
                 throw new RuntimeException("User type not defined.");
             }

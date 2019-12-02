@@ -146,6 +146,29 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
         
     
     }
+    
+    @Override
+    public String findCourseInstructor(String courseCode){
+        try {
+            Query query = em.createQuery(
+                "SELECT u.instructorId FROM Course u" +
+                " WHERE u.courseCode = :code");
+            query.setParameter("code",courseCode);
+            String instructorId = (String) query.getSingleResult();
+            
+            return instructorId;
+
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            
+        }
+        return null;
+        
+    
+    }
+
+    
 
     
     

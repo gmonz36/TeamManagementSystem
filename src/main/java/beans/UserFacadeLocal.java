@@ -56,5 +56,6 @@ public interface UserFacadeLocal {
 
     public String getCourseCode();
 
-    
+    public String findCourseInstructor(String courseCode);
+
 }
