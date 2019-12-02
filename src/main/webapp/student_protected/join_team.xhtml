@@ -15,8 +15,8 @@
                 <ui:repeat value="#{joinTeamBean.teamId}" var="teamId">
                     <table>
                     <column>
-                        <h:selectBooleanCheckbox value="#{JoinTeamBean.checkMap[teamId]}">
-                            <f:ajax event="click" execute="@form" render="@form"> </f:ajax>
+                        <h:selectBooleanCheckbox value="#{joinTeamBean.checkMap[teamId]}" >
+                            <f:ajax event="click" > </f:ajax>
                         </h:selectBooleanCheckbox>
                     </column>
                     <column>

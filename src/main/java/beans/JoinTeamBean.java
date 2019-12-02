@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -27,7 +28,7 @@ import persistence.Team;
  * @author aman
  */
 @Named(value = "joinTeamBean")
-@RequestScoped
+@ApplicationScoped
 public class JoinTeamBean {
     @EJB
     private TeamFacadeLocal teamFacade;
@@ -35,6 +36,8 @@ public class JoinTeamBean {
     private ArrayList<Team> teams;
     private Student student;
     private Course course; 
+    private List<String> teamId = new ArrayList<>();
+    private Map<String, Boolean> checkMap = new HashMap<>();
     
     /**
      * Creates a new instance of JoinTeamBean
@@ -43,7 +46,6 @@ public class JoinTeamBean {
     }
     
     public String getIncompleteTeam(){
-        System.out.println("Entering getIncompleteTeams!!!!!!!!!");
         try{
             teams = new ArrayList<>();
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -54,25 +56,26 @@ public class JoinTeamBean {
                 for(Team team : resultList){
                     Team x = team;
                     teams.add(new Team(x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
-                System.out.println(x.getCourseCode());
                 } 
             }
+            
             //checkboxes
-            teamId = new ArrayList<String>();
             for (Team team : teams){
                 teamId.add(team.getTeamId());
-                System.out.println(team.getTeamId());
             }
-            System.out.println(teamId.toString());
             // fill the check map up with <item, FALSE> values
-            for (Team team : teams) {
-                checkMap.put(team.getTeamId(), Boolean.FALSE);
+            for (String s : teamId) {
+                checkMap.put(s, Boolean.FALSE);
             }
-        }catch(Exception e){e.printStackTrace();}  
+            
+        }catch(Exception e){}  
+        
         return "join_team";
     }
     
     public String sendRequests(){
+        System.out.println("HERE");
+        getSelected();
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Student student = (Student) session.getAttribute("User");
         //createRequest("pending", student.getUserId(), teamId);
@@ -86,9 +89,6 @@ public class JoinTeamBean {
     public void setTeams(ArrayList<Team> teams) {
         this.teams = teams;
     }
-    
-    private List<String> teamId;
-    private Map<String, Boolean> checkMap = new HashMap<String, Boolean>();
 
     public List<String> getTeamId() {
         return teamId;
@@ -98,22 +98,23 @@ public class JoinTeamBean {
         this.teamId = teamId;
     }
 
-        public String getSelected() {
-            String result = "";
-            for (Entry<String, Boolean> entry : checkMap.entrySet()) {
-                    if (entry.getValue()) {
-                            result = result + ", " + entry.getKey();
-                    }
+    public String getSelected() {
+        String result = "";
+        for (Entry<String, Boolean> entry : checkMap.entrySet()) {
+            if (entry.getValue()) {
+                System.out.println("once");
+                result = result + ", " + entry.getKey();
             }
-            if (result.length() == 0) {
-                    return "";
-            } else {
-                    return result.substring(2);
-            }
+        }
+        if (result.length() == 0) {
+            return "";
+        } else {
+            return result.substring(2);
+        }
     }
 
     public Map<String, Boolean> getCheckMap() {
-            return checkMap;
+        return checkMap;
     }
     
 }
