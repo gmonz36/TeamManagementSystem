@@ -11,38 +11,29 @@
 
             <ui:define name="content">
            <f:view>
-           <form action="#{joinTeamBean.sendRequests()}">
-                <h:dataTable  cellpadding="10pt"  value="#{joinTeamBean.teams}" var="team">
-                    <h:column>
-                        <input type="checkbox" name="id" value="#{team.teamId}"></input>
-                    </h:column>
-                    <h:column>
-                       <h:outputText value="#{team.teamId}"/>
-                    </h:column>
-                    <h:column>
+           <h:form>
+                <ui:repeat value="#{joinTeamBean.teamId}" var="teamId">
+                    <table>
+                    <column>
+                        <h:selectBooleanCheckbox value="#{joinTeamBean.checkMap[teamId]}" >
+                            <f:ajax event="click"> </f:ajax>
+                        </h:selectBooleanCheckbox>
+                    </column>
+                    <column>
+                       <h:outputText value="#{teamId}"/>
+                    </column>
+                    <column>
                         <h:outputText value="#{team.teamName}"/>
-                    </h:column>
-                    <h:column>
+                    </column>
+                    <column>
                         <h:outputText value="#{team.dateOfCreation}"/>
-                    </h:column>
-                </h:dataTable>
-                <!--<input type="submit" value="Send Requests"></input>-->
-                <input type="button" onclick="myFunction()" value="Send Requests"></input>
-            </form>
-            <script>
-                function myFunction() {
-                    String[] teams;
-                    int j = 0;
-                    var id = document.forms[0];
-                    for (int i = 0; i < id.length; i++) {
-                        if (id[i].checked) {
-                            //add it to an array
-                            teams[j++] = id[i];
-                        } 
-                    }
-                    
-                }
-            </script>
+                    </column>
+                    </table>
+                </ui:repeat>
+                <h:commandButton value="Send Requests" type="command" actionListener="#{joinTeamBean.sendRequests()}" />
+                <br></br><br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusBad" value="#{joinTeamBean.statusBad}"/> 
+                <br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusGood" value="#{joinTeamBean.statusGood}"/>
+           </h:form>
         </f:view>
             </ui:define>
 

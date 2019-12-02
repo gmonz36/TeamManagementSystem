@@ -47,24 +47,14 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
             create(tp);
     }
 
-
-
-    
     public void addTeam(Team team) {
         getEntityManager().persist(team);
-        
-
     }
-    
     
     @Override
     public TeamParameters findTeamParams(Object courseCode) {
         return getEntityManager().find(TeamParameters.class, courseCode);
-
     }
-
-    
-
 
     @Override
     //Returns list of all teams from a class
@@ -84,14 +74,11 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
         Query query = em.createQuery(
                 "SELECT u FROM Team u" +
                 " WHERE u.courseCode = :CourseCode" +
-                        " AND u.teamStatus = :TeamStatus");
+                        " AND u.teamStatus <> :TeamStatus");
             query.setParameter("CourseCode",courseCode);
-            query.setParameter("TeamStatus","Incomplete");
+            query.setParameter("TeamStatus","Complete");
             List resultList = query.getResultList();
-            return resultList;
-        
-        
-        
+            return resultList;   
     }
     
     @Override
@@ -111,6 +98,7 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
         }
         return null;
     }
+    
     @Override
     //Creates a Request
     public void createRequest(String status, String userId, String teamId){
@@ -120,5 +108,51 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
             re.setTeamId(teamId);
             create(re);   
     }
+    
+    @Override
+    //Checks if requests already exists
+    public boolean requestExists(String studentId, String teamId){
+    
+        try{
+         Query query = em.createQuery(
+                "SELECT u FROM Request u" +
+                " WHERE u.studentId = :StudentID" + 
+                " AND u.teamId = :TeamID");
+            query.setParameter("StudentID",studentId);
+            query.setParameter("TeamID",teamId);
+            
+            if(query.getResultList().isEmpty()){
+                return false;
+            }else{
+                return true;
+            }                          
+        }
+        catch(Exception e){
+             System.out.println(e.getMessage());
+        }
+        return true;
+    }
+    
+    @Override
+    //Checks if team name is duplicate
+    public boolean teamNameAlreadyExists(String teamName){
+    
+         try{
+         Query query = em.createQuery(
+                "SELECT u FROM Team u" +
+                " WHERE u.teamName = :TeamName");
+            query.setParameter("TeamName",teamName);
+            
+            if(query.getResultList().isEmpty()){
+                return false;
+            }else{
+                return true;
+            }     
+        }
+        catch(Exception e){
+        }
+        return true;
+    }
+    
     
 }
