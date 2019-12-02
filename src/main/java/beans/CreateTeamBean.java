@@ -30,98 +30,94 @@ public class CreateTeamBean {
     /**
      * Creates a new instance of SetUpTeamsParametersBean
      */
-        @EJB
-        private UserFacadeLocal userFacade;
-        @EJB
-        private TeamFacadeLocal teamFacade;
-                
-        private String teamId;
-        private String teamName;
-        private LocalDate dateOfCreation;
-        private boolean teamStatus;
-        private String liaisonId;
-        private String membersString;
-        private String courseCode;
-
-
-
-    @Resource
-    private javax.transaction.UserTransaction utx;
+    @EJB
+    private UserFacadeLocal userFacade;
+    @EJB
+    private TeamFacadeLocal teamFacade;
     
+    private String teamId;
+    private String teamName;
+    private LocalDate dateOfCreation;
+    private boolean teamStatus;
+    private String liaisonId;
+    private String membersString;
+    private String courseCode;
     private String status;
 
-    
-    public CreateTeamBean() {
-        
-        
-        
+    /*
+    * Constructors
+    */
+    public CreateTeamBean() { 
     }
-   
        
     public void createTeam(){
-
         try {
+            //we get the courseCode of the student
             courseCode=getCourseCode();
-            Team team = new Team();
+            
+            //session attributes
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Student user = (Student)session.getAttribute("User");
-            team.setLiaisonId(user.getUserId());
-
-            TeamParameters params = teamFacade.findTeamParams(courseCode);
-
-
-            if(params == null) {
-                status="Invalid Course, please try again";
-             } else {
             
-                team.setDateOfCreation();
-                team.setTeamName(teamName);
+            //verify that TeamParameters exist
+            TeamParameters params = teamFacade.findTeamParams(courseCode);
+            if(params == null) {
+                status = "No Team parameters exist for this course";
+            } else {
                 
-                
-                membersString = membersString.replaceAll("\\s", ""); 
                 boolean flag = true;
+                //putting all the studentId in a String[]
+                membersString = membersString.replaceAll("\\s", ""); 
                 String[] tmp_members = membersString.split(",");
+                
+                //checks for the number of students (error 3)
+                if(tmp_members.length>params.getMaxStudents()-1){
+                    flag = false;
+                    status = "Number of team members exceeds limit";
+                }
+                //checks for a duplicate team name (error 2)
+                if(teamFacade.teamNameAlreadyExists(teamName)){
+                    flag = false;
+                    status = "This team name already exists";
+                }
+                //checks if student is already in team (error 1)
                 for (int i=0; i<tmp_members.length; i++){
                     Student student = (Student)userFacade.findStudent(tmp_members[i]);
                     if (student == null){
-                        throw new Exception();
-                        
+                        throw new Exception();      
                     }
                     else if(student.getTeamId()!=null){
-                        flag=false;
-                        status="One of the students is already in a team";
+                        flag = false;
+                        status = "One of the students is already in a team";
                     }
                 }
+                
+                //if we encountered no error
                 if (flag){
+                    //goes through all the members in the list and add the teamId
                     for (int i=0; i<tmp_members.length; i++){
-
                         Student student = (Student)userFacade.findStudent(tmp_members[i]);
-                        
-                        if(i>params.getMaxStudents()-1){
-                            status="Number of team members exceeds limit";
-                        }
-
-                        else{
-                            student.setTeamId(getCourseCode()+user.getUserId());
-                            userFacade.editStudent(student);
-                        }
+                        student.setTeamId(getCourseCode()+user.getUserId());
+                        userFacade.editStudent(student);
                     }
+                    
                     user.setTeamId( getCourseCode()+user.getUserId());
                     userFacade.editStudent(user);
 
-
+                    //set the Team variables
+                    Team team = new Team();
+                    team.setLiaisonId(user.getUserId());
+                    team.setDateOfCreation();
+                    team.setTeamName(teamName);
                     team.setTeamId(getCourseCode()+user.getUserId());
-
                     team.setCourseCode(courseCode);
-
+                    //set the status
                     if(tmp_members.length+1<params.getMinStudents()){
-                        team.setTeamStatus("incomplete");
-                    }
-                    else if(tmp_members.length+1<params.getMaxStudents()){
-                        team.setTeamStatus("valid");
-                    }
-                    else{
-                        team.setTeamStatus("complete");
+                        team.setTeamStatus("Incomplete");
+                    }else if(tmp_members.length+1<params.getMaxStudents()){
+                        team.setTeamStatus("Valid");
+                    }else{
+                        team.setTeamStatus("Complete");
                     }
 
 
