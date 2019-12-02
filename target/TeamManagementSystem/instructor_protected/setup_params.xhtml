@@ -11,6 +11,31 @@
 
             <ui:define name="content">
            <f:view>
+               
+               <h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="status" value="#{setUpTeamParameters.status}"/>
+               <h1>Select team parameters</h1>
+                    <h:form>
+                        <h:panelGrid columns="3">
+                            <h:outputText value="Min Students"></h:outputText>
+                                <h:inputText id="minStudents" value="#{setUpTeamsParametersBean.min_students}" required="true" requiredMessage="Please enter minimum students">
+                                </h:inputText>
+                            <h:message id="idMsg" for="id" errorStyle="color:red; display:block"/>
+                            <h:outputText value="Max Students"></h:outputText>
+                                <h:inputText id="maxStudents" value="#{setUpTeamsParametersBean.max_students}" required="true" requiredMessage="Please enter maximum students">
+                                </h:inputText>
+                            <h:message id="idMsg2" for="id" errorStyle="color:red; display:block"/>
+                            <h:outputText value="Deadline (yyyy-mm-dd)"></h:outputText>
+                                <h:inputText id="deadline" value="#{setUpTeamsParametersBean.deadline}" required="true" requiredMessage="Please enter a deadline">
+                                </h:inputText>
+                            <h:message id="idMsg3" for="id" errorStyle="color:red; display:block"/>
+                            <h:outputText value="Course Code"></h:outputText>
+                                <h:inputText id="courseCode" value="#{setUpTeamsParametersBean.courseCode}" required="true" requiredMessage="Please enter the related Course's Code">
+                                </h:inputText>
+                            <h:message id="idMsg4" for="id" errorStyle="color:red; display:block"/>
+                        </h:panelGrid>
+                        <h:commandButton value="Confirm" type="command"  action="#{setUpTeamsParametersBean.confirmParameters}"> 
+                        </h:commandButton> 
+                    </h:form>     
          
         </f:view>
             </ui:define>

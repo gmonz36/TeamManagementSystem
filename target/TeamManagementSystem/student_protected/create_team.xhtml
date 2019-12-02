@@ -10,7 +10,22 @@
         <ui:composition template="./../student_template.xhtml">
 
             <ui:define name="content">
-           <f:view>            
+           <f:view>
+               <h1>Create team</h1>
+                    <h:form>
+                        <h:panelGrid columns="3">
+                            <h:outputText value="Team Name"></h:outputText>
+                                <h:inputText id="teamName" value="#{createTeamBean.teamName}" required="true" requiredMessage="Please enter team name">
+                                </h:inputText>
+                            <h:message id="idMsg" for="id" errorStyle="color:red; display:block"/>
+                            <h:outputText value="Members"></h:outputText>
+                                <h:inputText id="members" value="#{createTeamBean.members}" required="true" requiredMessage="Please enter team members">
+                                </h:inputText>
+                            <h:message id="idMsg2" for="id" errorStyle="color:red; display:block"/>
+                        </h:panelGrid>
+                        <h:commandButton value="Create" type="command"  action="#{createTeamBean.createTeam}"> 
+                        </h:commandButton> 
+                    </h:form>
         </f:view>
             </ui:define>
 

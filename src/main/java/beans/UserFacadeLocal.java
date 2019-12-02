@@ -33,7 +33,9 @@ public interface UserFacadeLocal {
             throws UnsupportedEncodingException, NoSuchAlgorithmException;
             
     void edit(User user);
+    void editStudent(Student student);
 
+    
     void remove(User user);
 
     Student findStudent(Object id);
@@ -47,6 +49,5 @@ public interface UserFacadeLocal {
     int count();
     
     
-    public List<User> findById(String id);
     
 }

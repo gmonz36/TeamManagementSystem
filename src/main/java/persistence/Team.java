@@ -6,10 +6,14 @@
 package persistence;
 
 import java.io.Serializable;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import javax.faces.context.FacesContext;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -18,9 +22,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="TEAM_TABLE8930730")
+
 public class Team implements Serializable{
     
-    @Id
+    
     String courseCode;
     @Id
     String teamId;
@@ -28,7 +33,8 @@ public class Team implements Serializable{
     LocalDate dateOfCreation;
     String teamStatus;
     String liaisonId;
-    Student[] members;
+    String membersString;
+
 
     public Team() {
     }
@@ -49,12 +55,15 @@ public class Team implements Serializable{
         this.courseCode = courseCode;
     }
 
+
     public String getTeamId() {
         return teamId;
     }
 
+
     public void setTeamId(String teamId) {
         this.teamId = teamId;
+
     }
 
     public String getTeamName() {
@@ -69,9 +78,12 @@ public class Team implements Serializable{
         return dateOfCreation;
     }
 
-    public void setDateOfCreation(LocalDate dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
+
+    public void setDateOfCreation() {
+        this.dateOfCreation = java.time.LocalDate.now();
     }
+
+   
 
     public String getTeamStatus() {
         return teamStatus;
@@ -87,5 +99,19 @@ public class Team implements Serializable{
 
     public void setLiaisonId(String liaisonId) {
         this.liaisonId = liaisonId;
+
+    }
+    
+
+
+    
+    public String getMembersString() {
+        return membersString;
+    }
+
+    public void setMembersString(String membersString) {
+        this.membersString = membersString;
     } 
 }
+
+

@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import persistence.Student;
 import persistence.Course;
 import persistence.CourseSection;
 import persistence.Request;
@@ -45,7 +46,26 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
             tp.setDeadline(deadline);
             create(tp);
     }
+
+
+
     
+    public void addTeam(Team team) {
+        getEntityManager().persist(team);
+        
+
+    }
+    
+    
+    @Override
+    public TeamParameters findTeamParams(Object courseCode) {
+        return getEntityManager().find(TeamParameters.class, courseCode);
+
+    }
+
+    
+
+
     @Override
     //Returns list of all teams from a class
     public List<Team> getTeams(String courseCode){
