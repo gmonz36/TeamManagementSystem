@@ -34,6 +34,14 @@ public class Student extends User {
     public void setTeamId(String teamId) {
         this.teamId = teamId;
     }
+    
+    public String getSectionCode() {
+        return sectionCode;
+    }
+
+    public void setSectionCode(String sectionCode) {
+        this.sectionCode = sectionCode;
+    }
 
   
     

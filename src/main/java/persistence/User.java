@@ -29,7 +29,6 @@ public class User implements Serializable {
     private String firstname;
     private String lastname;
     private String email;
-    private String sectionCode;
 
     @Lob
     private byte[] password; // salted + hashed password
@@ -149,12 +148,6 @@ public class User implements Serializable {
         this.salt = salt;
     }
     
-    public String getSectionCode() {
-        return sectionCode;
-    }
 
-    public void setSectionCode(String sectionCode) {
-        this.sectionCode = sectionCode;
-    }
     
 }

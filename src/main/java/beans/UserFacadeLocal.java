@@ -23,11 +23,11 @@ import persistence.Course;
 public interface UserFacadeLocal {
 
     public void addStudent(String program, String userId, String firstname,
-            String lastname, String password) 
+            String lastname, String password, String sectionCode) 
             throws UnsupportedEncodingException, NoSuchAlgorithmException;
 
     public void addInstructor(String userId, String firstname,
-            String lastname, String password) 
+            String lastname, String password, String courseCode) 
             throws UnsupportedEncodingException, NoSuchAlgorithmException;
     
     public boolean isValidLogin(String userId, String password) 
@@ -52,5 +52,10 @@ public interface UserFacadeLocal {
     public Course findCourseCode(String id);
     public List<Student> getStudentsInTeam(String teamId);
 
-    
+    public String getSectionCode();
+
+    public String getCourseCode();
+
+    public String findCourseInstructor(String courseCode);
+
 }

@@ -98,7 +98,7 @@ public class VisualizeTeamsBean {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Instructor ins = (Instructor) session.getAttribute("User");
    
-        Course course = teamFacade.findCourse(ins.getSectionCode());
+        Course course = teamFacade.findCourse(ins.getCourseCode());
         return course.getCourseCode();
     }
 }
