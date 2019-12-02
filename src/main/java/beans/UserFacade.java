@@ -42,9 +42,10 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
 
     @Override
     public void addStudent(String program, String userId, String firstname,
-            String lastname, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+            String lastname, String password, String sectionCode) throws UnsupportedEncodingException, NoSuchAlgorithmException {
             Student acc = new Student();
             acc.setProgram(program);
+            acc.setSectionCode(sectionCode);
             acc.setUserId(userId);
             acc.setFirstname(firstname);
             acc.setLastname(lastname);;
@@ -64,10 +65,11 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
     
     @Override
     public void addInstructor(String userId, String firstname,
-            String lastname, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+            String lastname, String password, String courseCode) throws UnsupportedEncodingException, NoSuchAlgorithmException {
             Instructor acc = new Instructor();
             acc.setUserId(userId);
             acc.setFirstname(firstname);
+            acc.setCourseCode(courseCode);
             acc.setLastname(lastname);;
             // randomly generate salt value
             final Random r = new SecureRandom();
@@ -184,6 +186,45 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
         
         
         
+    }
+    
+    @Override
+    public String getSectionCode(){
+        try {
+            Query query = em.createQuery(
+                "SELECT u.sectionCode FROM CourseSection u"
+               );
+          
+            String sectionCode = (String) query.getSingleResult();
+            
+            return sectionCode;
+
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            
+        }
+        return null;
+        
+    }
+    
+    @Override
+    public String getCourseCode(){
+        try {
+            Query query = em.createQuery(
+                "SELECT u.courseCode FROM Course u"
+               );
+          
+            String courseCode = (String) query.getSingleResult();
+            
+            return courseCode;
+
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            
+        }
+        return null;
     }
     
  
