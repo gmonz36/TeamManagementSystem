@@ -33,7 +33,6 @@ public class Team implements Serializable{
     LocalDate dateOfCreation;
     String teamStatus;
     String liaisonId;
-    String membersString;
 
 
     public Team() {
@@ -101,17 +100,6 @@ public class Team implements Serializable{
         this.liaisonId = liaisonId;
 
     }
-    
-
-
-    
-    public String getMembersString() {
-        return membersString;
-    }
-
-    public void setMembersString(String membersString) {
-        this.membersString = membersString;
-    } 
 }
 
 
