@@ -102,4 +102,32 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
             create(re);   
     }
     
+    @Override
+    //Checks if requests already exists
+    public boolean requestExists(String studentId, String teamId){
+    
+        try{
+         Query query = em.createQuery(
+                "SELECT u FROM Request u" +
+                " WHERE u.studentId = :StudentID" + 
+                " AND u.teamId = :TeamID");
+            query.setParameter("StudentID",studentId);
+            query.setParameter("TeamID",teamId);
+            
+            if(query.getSingleResult()!=null){
+                return true;
+            }else{
+                return false;
+            }
+                                    
+        }
+        catch(Exception e){
+        
+        }
+            
+        
+        return false;
+    }
+    
+    
 }
