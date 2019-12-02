@@ -68,8 +68,11 @@ public class CreateTeamBean {
                 boolean flag = true;
                 //putting all the studentId in a String[]
                 membersString = membersString.replaceAll("\\s", ""); 
+                
+                //memberString is not null so the problem is probably at the split
                 String[] tmp_members = membersString.split(",");
                 
+                System.out.println(tmp_members[0]);
                 //checks for the number of students (error 3)
                 if(tmp_members.length>params.getMaxStudents()-1){
                     flag = false;
