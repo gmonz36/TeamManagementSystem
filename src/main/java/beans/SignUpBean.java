@@ -18,6 +18,8 @@ public class SignUpBean {
     private String password;
     private String type;
     private String program;
+    private String sectionCode;
+    private String courseCode;
     @EJB
     private UserFacadeLocal userFacade;    
     @Resource
@@ -127,6 +129,33 @@ public class SignUpBean {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public String getSectionCode() {
+        return sectionCode;
+    }
+
+    /**
+     * @param sectionCode the sectionCode to set
+     */
+    public void setSectionCode(String sectionCode) {
+        this.sectionCode = sectionCode;
+    }
+    
+    
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    /**
+     * @param courseCode the courseCode to set
+     */
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+    
+    
+    
+    
 
     /**
      * @return the status message
@@ -142,12 +171,15 @@ public class SignUpBean {
                     status="Students must specify their program.";
                     return;
                 }
-                userFacade.addStudent(program, userId, firstname, lastname, password);
+                sectionCode = userFacade.getSectionCode();
+                
+                userFacade.addStudent(program, userId, firstname, lastname, password, sectionCode);
                 status="New Student Created Fine"; 
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             }
             else if(type.equals("Instructor")) {
-                userFacade.addInstructor(userId, firstname, lastname, password);
+                courseCode = userFacade.getCourseCode();
+                userFacade.addInstructor(userId, firstname, lastname, password, courseCode);
                 status="New Instructor Created Fine"; 
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             } else {

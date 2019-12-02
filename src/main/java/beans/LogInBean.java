@@ -78,7 +78,7 @@ public class LogInBean {
                 HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
                 if(userFacade.findStudent(userId)!=null) {
                     session.setAttribute("User", userFacade.findStudent(userId));
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("faces/student_protected/create_team.xhtml");
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("faces/student_protected/menu.xhtml");
 
 
                 } else {
