@@ -192,6 +192,11 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
     //Accepts a student into a team
     public void acceptStudent(String studentId, String teamId){
         
+        
+        System.out.println("And you do actually pass by here right???");
+        System.out.println(teamId);
+        System.out.println(studentId);
+        
          Query query = em.createQuery(
                 "UPDATE Request u " +
                 "SET u.status ='Accepted'"+
@@ -214,16 +219,12 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
     @Override
     //Gets total members in a team
     public int findCurrentAmountOfMembers(String teamId){
-        
-         Query query = em.createQuery(
+        Query query = em.createQuery(
                 "SELECT COUNT(u) FROM Student u" +
                 " WHERE u.teamId = :TeamId");
             query.setParameter("TeamId",teamId);
             
-            System.out.println("AAAAAAAAAAAA");
-            System.out.println(query.getSingleResult());
-            
-            return (int) query.getSingleResult();
+            return Integer.parseInt(query.getSingleResult().toString());
     
     }
     

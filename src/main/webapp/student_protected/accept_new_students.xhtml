@@ -10,18 +10,18 @@
            <ui:define name="content">
            <f:view>
            <h:form>
-                <ui:repeat value="#{acceptNewStudentsBean.requestId}" var="requestId">
+                <ui:repeat value="#{acceptNewStudentsBean.requests}" var="req">
                     <table>
                     <column>
-                        <h:selectBooleanCheckbox value="#{acceptNewStudentsBean.checkMap[requestId]}" >
+                        <h:selectBooleanCheckbox value="#{acceptNewStudentsBean.checkMap[req.id]}" >
                             <f:ajax event="click"> </f:ajax>
                         </h:selectBooleanCheckbox>
                     </column>
                     <column>
-                       <h:outputText value="#{requestId}"/>
+                        <h:outputText value="#{req.id}"/>
                     </column>
                     <column>
-                        <h:outputText value="#{team.status}"/>
+                        <h:outputText value="#{req.status}"/>
                     </column>
                     </table>
                 </ui:repeat>

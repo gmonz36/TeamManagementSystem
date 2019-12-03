@@ -27,33 +27,38 @@ import persistence.Request;
 public class AcceptNewStudentsBean {
     @EJB
     private TeamFacadeLocal teamFacade;
+    @EJB
     private UserFacadeLocal userFacade;
     private List<Request> requestList;
     private ArrayList<Request> requests;
     private Student student; 
-    private List<String> requestId;
     private Map<String, Boolean> checkMap;
     private String statusGood;
     private String statusBad;
     
     public String redirect(){
         try{
-            requests = new ArrayList<>();
-            requestId = new ArrayList<>();
+            //empties the status
+            statusBad = "";
+            statusGood = "";
+            //initializes the values
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Student student = (Student) session.getAttribute("User");
+            requests = new ArrayList<>();
             requestList = teamFacade.getRequests(student.getTeamId());
+            
+            //Adding the requests to the array
             for(Request request : requestList){
                 Request x = request;
                 requests.add(new Request(x.getId(), x.getStatus(), x.getStudentId(), x.getTeamId()));
-                requestId.add(request.getStudentId());
             } 
+            
+            //redirecting to the right page
             if(teamFacade.isLiaison(student)){
                 //checkboxes
                 checkMap = new HashMap<>();
-                // fill the check map up with <item, FALSE> values
-                for (String l : requestId) {
-                    checkMap.put(l, Boolean.FALSE);
+                for (Request r : requests) {
+                    checkMap.put(r.getStudentId(), Boolean.FALSE);
                 }
                 return "accept_new_students";
             }else{
@@ -65,7 +70,7 @@ public class AcceptNewStudentsBean {
         }     
     }
     
-    public void acceptRequest(){
+    public void acceptRequests(){
         try{
             //empties the status
             statusBad = "";
@@ -75,11 +80,12 @@ public class AcceptNewStudentsBean {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Student student = (Student) session.getAttribute("User");
             ArrayList<String> selected = getSelected();
-            Course course = teamFacade.findCourse(student.getSectionCode());
             
+            Course course = teamFacade.findCourse(student.getSectionCode());
+
             //check the amount of team members (error)
-            if((teamFacade.findTeamParams(course.getCourseCode())).getMaxStudents()>selected.size() + teamFacade.findCurrentAmountOfMembers(student.getTeamId())){
-                statusBad = "With these requests the amount of team members exceeds the limit, please select less student";
+            if((teamFacade.findTeamParams(course.getCourseCode())).getMaxStudents()<selected.size() + teamFacade.findCurrentAmountOfMembers(student.getTeamId())){
+                statusBad = "With these requests the amount of team members exceeds the limit, please select less students";
                 return; 
             }
 
@@ -93,7 +99,7 @@ public class AcceptNewStudentsBean {
                     bad++;
                 }else{
                     good++;
-                    teamFacade.acceptNewStudent(s.getTeamId(), s.getUserId());
+                    teamFacade.acceptStudent(s.getUserId(), student.getTeamId());
                 }
             }   
             
@@ -127,14 +133,6 @@ public class AcceptNewStudentsBean {
 
     public void setRequests(ArrayList<Request> requests) {
         this.requests = requests;
-    }
-
-    public List<String> getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(List<String> requestId) {
-        this.requestId = requestId;
     }
 
     public Student getStudent() {

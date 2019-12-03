@@ -10,14 +10,14 @@
             <ui:define name="content">
             <f:view>
             <h:form>   
-                <h:dataTable cellpadding="10pt"  value="#{acceptNewStudentsBean.requests}" var="request">
+                <h:dataTable cellpadding="10pt"  value="#{acceptNewStudentsBean.requests}" var="req">
                     <h:column>
                         <f:facet name = "header">StudentID</f:facet>  
-                        <h:outputText value="#{request.studentId}"/>
+                        <h:outputText value="#{req.studentId}"/>
                     </h:column>
                     <h:column>
                         <f:facet name = "header">Status</f:facet>  
-                        <h:outputText value="#{request.satus}"/>
+                        <h:outputText value="#{req.status}"/>
                     </h:column>
                 </h:dataTable>
             </h:form>

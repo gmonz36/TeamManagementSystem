@@ -36,7 +36,6 @@ public class JoinTeamBean {
     private ArrayList<Team> teams;
     private Student student;
     private Course course; 
-    private List<String> teamId;
     private Map<String, Boolean> checkMap;
     private String statusGood;
     private String statusBad;
@@ -53,7 +52,6 @@ public class JoinTeamBean {
             statusGood="";
             statusBad="";
             teams = new ArrayList<>();
-            teamId = new ArrayList<>();
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Student student = (Student) session.getAttribute("User");
             course = teamFacade.findCourse(student.getSectionCode());
@@ -61,15 +59,14 @@ public class JoinTeamBean {
                 List<Team> resultList = teamFacade.getIncompleteTeams(course.getCourseCode());
                 for(Team team : resultList){
                     Team x = team;
-                     teams.add(new Team(x.getTeamName() ,x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
-                    teamId.add(team.getTeamId());
+                    teams.add(new Team(x.getTeamName() ,x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
                 } 
             }
             
             //checkboxes
             checkMap = new HashMap<>();
-            for (String s : teamId) {
-                checkMap.put(s, Boolean.FALSE);
+            for (Team t : teams) {
+                checkMap.put(t.getTeamId(), Boolean.FALSE);
             }
             
         }catch(Exception e){}  
@@ -128,14 +125,6 @@ public class JoinTeamBean {
 
     public void setTeams(ArrayList<Team> teams) {
         this.teams = teams;
-    }
-
-    public List<String> getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(List<String> teamId) {
-        this.teamId = teamId;
     }
 
     public String getStatusGood() {
