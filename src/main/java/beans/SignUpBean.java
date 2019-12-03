@@ -173,7 +173,7 @@ public class SignUpBean {
                 }
                 sectionCode = userFacade.getSectionCode();
                 
-                userFacade.addStudent(program, userId, firstname, lastname, password, sectionCode);
+                userFacade.addStudent(program, userId, firstname, lastname, password, sectionCode, email);
                 status="New Student Created Fine"; 
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             }
@@ -184,7 +184,7 @@ public class SignUpBean {
                 }
                 else{
                     userFacade.modifyCourse(userId);
-                    userFacade.addInstructor(userId, firstname, lastname, password);
+                    userFacade.addInstructor(userId, firstname, lastname, password, email);
                     status="New Instructor Created Fine"; 
                     FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
                 }

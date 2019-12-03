@@ -42,9 +42,10 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
 
     @Override
     public void addStudent(String program, String userId, String firstname,
-            String lastname, String password, String sectionCode) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+            String lastname, String password, String sectionCode, String email) throws UnsupportedEncodingException, NoSuchAlgorithmException {
             Student acc = new Student();
             acc.setProgram(program);
+            acc.setEmail(email);
             acc.setSectionCode(sectionCode);
             acc.setUserId(userId);
             acc.setFirstname(firstname);
@@ -65,9 +66,10 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
     
     @Override
     public void addInstructor(String userId, String firstname,
-            String lastname, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+            String lastname, String password, String email) throws UnsupportedEncodingException, NoSuchAlgorithmException {
             Instructor acc = new Instructor();
             acc.setUserId(userId);
+            acc.setEmail(email);
             acc.setFirstname(firstname);
             acc.setLastname(lastname);;
             // randomly generate salt value
