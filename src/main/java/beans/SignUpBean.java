@@ -21,7 +21,7 @@ public class SignUpBean {
     private String sectionCode;
     private String courseCode;
     @EJB
-    private ObjectFacadeLocal objectFacade;    
+    private TMSFacadeLocal objectFacade;    
     
     private String status;
     /**

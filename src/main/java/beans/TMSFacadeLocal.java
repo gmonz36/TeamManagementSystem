@@ -21,7 +21,7 @@ import persistence.TeamParameters;
  * @author aman
  */
 @Local
-public interface ObjectFacadeLocal {
+public interface TMSFacadeLocal {
     
     /*
     * student

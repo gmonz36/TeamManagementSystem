@@ -20,7 +20,7 @@ import persistence.CourseSection;
 @RequestScoped
 public class GenerateBean {
     @EJB
-    private ObjectFacadeLocal objectFacade;
+    private TMSFacadeLocal objectFacade;
     private boolean isGenerated;
     /**
      * Creates a new instance of JoinTeamBean

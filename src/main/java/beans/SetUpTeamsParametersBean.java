@@ -28,7 +28,7 @@ import persistence.TeamParameters;
 public class SetUpTeamsParametersBean {
     
     @EJB
-    private ObjectFacadeLocal objectFacade;
+    private TMSFacadeLocal objectFacade;
     private int min_students;
     private int max_students;
     private String deadline;

@@ -26,7 +26,7 @@ import persistence.Request;
 @ApplicationScoped
 public class AcceptNewStudentsBean {
     @EJB
-    private ObjectFacadeLocal objectFacade;
+    private TMSFacadeLocal objectFacade;
 
     private List<Request> requestList;
     private ArrayList<Request> requests;
@@ -62,8 +62,7 @@ public class AcceptNewStudentsBean {
                 return "accept_new_students";
             }else{
                 return "view_pending_requests";
-            }
-            
+            }         
         }catch(Exception e){
             return "menu";
         }     
@@ -87,7 +86,7 @@ public class AcceptNewStudentsBean {
                 statusBad = "With these requests the amount of team members exceeds the limit, please select less students";
                 return; 
             }
-
+            System.out.println(selected.get(0));
             for (String studentId : selected) {
                 Student s = (Student)objectFacade.findStudent(studentId);
                 if (s == null){
@@ -100,7 +99,7 @@ public class AcceptNewStudentsBean {
                     good++;
                     objectFacade.acceptStudent(s.getUserId(), student.getTeamId());
                 }
-            }   
+            }
             
             if(bad>0){
                 statusBad = bad+" request(s) was/were not sent because you already have pending request with the team(s)";
@@ -109,7 +108,10 @@ public class AcceptNewStudentsBean {
                 statusGood = good+" request(s) was/were sent successfully";
             }
             
-        }catch(Exception e){}
+        }catch(Exception e){
+            statusBad = "Error while accepting the student";
+            System.out.println(e.getMessage());
+        }
     }
     
     public ArrayList<String> getSelected() {

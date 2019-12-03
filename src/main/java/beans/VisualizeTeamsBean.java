@@ -26,7 +26,7 @@ import persistence.Team;
 @RequestScoped
 public class VisualizeTeamsBean {
     @EJB
-    private ObjectFacadeLocal objectFacade;
+    private TMSFacadeLocal objectFacade;
     
     private ArrayList<Team> teams;
     private HashMap<String, ArrayList<String>> members;

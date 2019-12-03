@@ -31,7 +31,7 @@ import persistence.Team;
 @ApplicationScoped
 public class JoinTeamBean {
     @EJB
-    private ObjectFacadeLocal objectFacade;
+    private TMSFacadeLocal objectFacade;
     
     private ArrayList<Team> teams;
     private Student student;

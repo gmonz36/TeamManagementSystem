@@ -9,11 +9,21 @@
         <ui:composition template="./../student_template.xhtml">
            <ui:define name="content">
            <f:view>
+               <table>
+                    <column>
+                        <th>List of Requests</th>
+                    </column>
+                    <column><th>(Student ID, </th>
+                    </column>
+                    <column>
+                        <th>Status)</th>
+                    </column>
+                </table>
            <h:form>
                 <ui:repeat value="#{acceptNewStudentsBean.requests}" var="req">
                     <table>
                     <column>
-                        <h:selectBooleanCheckbox value="#{acceptNewStudentsBean.checkMap[req.id]}" >
+                        <h:selectBooleanCheckbox value="#{acceptNewStudentsBean.checkMap[req.studentId]}" >
                             <f:ajax event="click"> </f:ajax>
                         </h:selectBooleanCheckbox>
                     </column>

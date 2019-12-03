@@ -28,7 +28,7 @@ import persistence.TeamParameters;
  * @author aman
  */
 @Stateless
-public class ObjectFacade extends AbstractFacade<Object> implements ObjectFacadeLocal {
+public class TMSFacade extends AbstractFacade<Object> implements TMSFacadeLocal {
     @PersistenceContext(unitName = "TeamManagementSystemPU")
     private EntityManager em;
 
@@ -37,7 +37,7 @@ public class ObjectFacade extends AbstractFacade<Object> implements ObjectFacade
         return em;
     }
 
-    public ObjectFacade() {
+    public TMSFacade() {
         super(Object.class);
     }
 
@@ -429,8 +429,6 @@ public class ObjectFacade extends AbstractFacade<Object> implements ObjectFacade
     @Override
     //Accepts a student into a team
     public void acceptStudent(String studentId, String teamId){
-        
-        
         System.out.println("And you do actually pass by here right???");
         System.out.println(teamId);
         System.out.println(studentId);

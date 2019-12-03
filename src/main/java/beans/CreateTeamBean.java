@@ -31,7 +31,7 @@ public class CreateTeamBean {
      * Creates a new instance of SetUpTeamsParametersBean
      */
     @EJB
-    private ObjectFacadeLocal objectFacade;
+    private TMSFacadeLocal objectFacade;
     
     private String teamName;
     private String membersString;

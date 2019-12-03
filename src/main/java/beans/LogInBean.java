@@ -25,7 +25,7 @@ public class LogInBean {
     private String password;
     private String status;
     @EJB
-    private ObjectFacadeLocal objectFacade;      
+    private TMSFacadeLocal objectFacade;      
     
     /**
      * Creates a new instance of LoginBean
