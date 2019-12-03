@@ -211,4 +211,21 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
         
     }
     
+    @Override
+    //Gets total members in a team
+    public int findCurrentAmountOfMembers(String teamId){
+        
+         Query query = em.createQuery(
+                "SELECT COUNT(u) FROM Student u" +
+                " WHERE u.teamId = :TeamId");
+            query.setParameter("TeamId",teamId);
+            
+            System.out.println("AAAAAAAAAAAA");
+            System.out.println(query.getSingleResult());
+            
+            return (int) query.getSingleResult();
+    
+    }
+    
+    
 }

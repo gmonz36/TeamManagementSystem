@@ -50,16 +50,18 @@ public class JoinTeamBean {
     
     public String getIncompleteTeam(){
         try{
+            statusGood="";
+            statusBad="";
             teams = new ArrayList<>();
             teamId = new ArrayList<>();
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Student student = (Student) session.getAttribute("User");
             course = teamFacade.findCourse(student.getSectionCode());
-            if(teamFacade.getTeams(course.getCourseCode())!=null){
+            if(teamFacade.getIncompleteTeams(course.getCourseCode())!=null){
                 List<Team> resultList = teamFacade.getIncompleteTeams(course.getCourseCode());
                 for(Team team : resultList){
                     Team x = team;
-                    teams.add(new Team(x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
+                     teams.add(new Team(x.getTeamName() ,x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
                     teamId.add(team.getTeamId());
                 } 
             }
