@@ -6,15 +6,31 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
-
         <ui:composition template="./../student_template.xhtml">
-
-            <ui:define name="content">
-           <f:view>            
-        </f:view>
+           <ui:define name="content">
+           <f:view>
+           <h:form>
+                <ui:repeat value="#{acceptNewStudentsBean.requests}" var="req">
+                    <table>
+                    <column>
+                        <h:selectBooleanCheckbox value="#{acceptNewStudentsBean.checkMap[req.id]}" >
+                            <f:ajax event="click"> </f:ajax>
+                        </h:selectBooleanCheckbox>
+                    </column>
+                    <column>
+                        <h:outputText value="#{req.id}"/>
+                    </column>
+                    <column>
+                        <h:outputText value="#{req.status}"/>
+                    </column>
+                    </table>
+                </ui:repeat>
+                <h:commandButton value="Accept Requests" type="command" actionListener="#{acceptNewStudentsBean.acceptRequests()}" />
+                <br></br><br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusBad" value="#{acceptNewStudentsBean.statusBad}"/> 
+                <br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusGood" value="#{acceptNewStudentsBean.statusGood}"/>
+            </h:form>
+            </f:view>
             </ui:define>
-
         </ui:composition>
-
     </body>
 </html>

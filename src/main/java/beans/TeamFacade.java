@@ -46,7 +46,8 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
             tp.setDeadline(deadline);
             create(tp);
     }
-
+    
+    @Override
     public void addTeam(Team team) {
         getEntityManager().persist(team);
     }
@@ -152,6 +153,79 @@ public class TeamFacade extends AbstractFacade<Object> implements TeamFacadeLoca
         catch(Exception e){
         }
         return true;
+    }
+    
+    @Override
+    //Checks if student is his team's liaison
+    public boolean isLiaison(Student student){
+
+    Query query = em.createQuery(
+            "SELECT u FROM Team u" +
+            " WHERE u.liaisonId = :LiaisonId" +
+            " AND u.teamId = :TeamId");
+        query.setParameter("LiaisonId",student.getUserId());
+        query.setParameter("TeamId",student.getTeamId());
+
+        if(query.getResultList().isEmpty()){
+                return false;
+            }else{
+                return true;
+            }  
+        
+    }
+    
+    @Override
+    //Gets the list of requests pending associated with a team
+    public List<Request> getRequests (String teamId){
+        
+        Query query = em.createQuery(
+                "SELECT u FROM Request u" +
+                " WHERE u.teamId = :TeamId");
+            query.setParameter("TeamId",teamId);
+            List resultList = query.getResultList();
+            return resultList;
+        
+            
+    }
+    
+    @Override
+    //Accepts a student into a team
+    public void acceptStudent(String studentId, String teamId){
+        
+        
+        System.out.println("And you do actually pass by here right???");
+        System.out.println(teamId);
+        System.out.println(studentId);
+        
+         Query query = em.createQuery(
+                "UPDATE Request u " +
+                "SET u.status ='Accepted'"+
+                " WHERE u.teamId =:TeamID" +
+                " AND u.studentId = :StudentID");
+            query.setParameter("StudentID",studentId);
+            query.setParameter("TeamID",teamId);
+            query.executeUpdate();
+            
+         Query query2 = em.createQuery(
+                "UPDATE Student u " +
+                "SET u.teamId =:StudentTeamID"+
+                " WHERE u.userId = :StudentID");
+            query2.setParameter("StudentID",studentId);
+            query2.setParameter("StudentTeamID",teamId);
+            query2.executeUpdate();
+        
+    }
+    
+    @Override
+    //Gets total members in a team
+    public int findCurrentAmountOfMembers(String teamId){
+        Query query = em.createQuery(
+                "SELECT COUNT(u) FROM Student u" +
+                " WHERE u.teamId = :TeamId");
+            query.setParameter("TeamId",teamId);
+            
+            return Integer.parseInt(query.getSingleResult().toString());
+    
     }
     
     
