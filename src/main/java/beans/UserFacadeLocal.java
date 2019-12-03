@@ -23,11 +23,11 @@ import persistence.Course;
 public interface UserFacadeLocal {
 
     public void addStudent(String program, String userId, String firstname,
-            String lastname, String password, String sectionCode) 
+            String lastname, String password, String sectionCode, String email) 
             throws UnsupportedEncodingException, NoSuchAlgorithmException;
 
     public void addInstructor(String userId, String firstname,
-            String lastname, String password) 
+            String lastname, String password, String email) 
             throws UnsupportedEncodingException, NoSuchAlgorithmException;
     
     public boolean isValidLogin(String userId, String password) 

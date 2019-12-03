@@ -23,7 +23,7 @@ public class Student extends User {
     /**
      * @param program the program to set
      */
-    public void setProgram(String firstname) {
+    public void setProgram(String program) {
         this.program = program;
     }
 
