@@ -65,11 +65,10 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
     
     @Override
     public void addInstructor(String userId, String firstname,
-            String lastname, String password, String courseCode) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+            String lastname, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
             Instructor acc = new Instructor();
             acc.setUserId(userId);
             acc.setFirstname(firstname);
-            acc.setCourseCode(courseCode);
             acc.setLastname(lastname);;
             // randomly generate salt value
             final Random r = new SecureRandom();
@@ -248,6 +247,22 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
             
         }
         return null;
+    }
+    
+    
+    @Override
+    public void modifyCourse(String userId){
+     try {
+            Query query = em.createQuery(
+                "UPDATE Course " +
+                "SET instructorId = :InstructorID");
+            query.setParameter("InstructorID", userId);
+            query.executeUpdate();
+      
+           
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
  
