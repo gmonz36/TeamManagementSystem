@@ -183,7 +183,8 @@ public class SignUpBean {
                     status="Instructor for course already exists"; 
                 }
                 else{
-                    userFacade.addInstructor(userId, firstname, lastname, password, courseCode);
+                    userFacade.modifyCourse(userId);
+                    userFacade.addInstructor(userId, firstname, lastname, password);
                     status="New Instructor Created Fine"; 
                     FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
                 }

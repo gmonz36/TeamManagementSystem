@@ -27,7 +27,7 @@ public interface UserFacadeLocal {
             throws UnsupportedEncodingException, NoSuchAlgorithmException;
 
     public void addInstructor(String userId, String firstname,
-            String lastname, String password, String courseCode) 
+            String lastname, String password) 
             throws UnsupportedEncodingException, NoSuchAlgorithmException;
     
     public boolean isValidLogin(String userId, String password) 
@@ -57,5 +57,7 @@ public interface UserFacadeLocal {
     public String getCourseCode();
 
     public String findCourseInstructor(String courseCode);
+
+    public void modifyCourse(String userId);
 
 }
