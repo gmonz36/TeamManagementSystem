@@ -51,6 +51,7 @@ public class JoinTeamBean {
     public String getIncompleteTeam(){
         try{
             teams = new ArrayList<>();
+            teamId = new ArrayList<>();
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Student student = (Student) session.getAttribute("User");
             course = teamFacade.findCourse(student.getSectionCode());
@@ -59,16 +60,12 @@ public class JoinTeamBean {
                 for(Team team : resultList){
                     Team x = team;
                     teams.add(new Team(x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
+                    teamId.add(team.getTeamId());
                 } 
             }
             
             //checkboxes
-            teamId = new ArrayList<>();
             checkMap = new HashMap<>();
-            for (Team team : teams){
-                teamId.add(team.getTeamId());
-            }
-            // fill the check map up with <item, FALSE> values
             for (String s : teamId) {
                 checkMap.put(s, Boolean.FALSE);
             }

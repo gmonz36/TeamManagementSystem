@@ -27,7 +27,7 @@
                 <ul style="list-style-type:none;"><h:form>
                  <li><h:link outcome="create_team" value="Create Team"/></li>
                  <li><h:commandLink action="#{joinTeamBean.getIncompleteTeam()}" value="Join Team"/></li>
-                 <li><h:commandLink action="#{acceptNewStudentsBean.getlink()}" value="View your team's pending request"/></li>
+                 <li><h:commandLink action="#{acceptNewStudentsBean.redirect()}" value="View your team's pending request"/></li>
                  <li><h:commandLink action="#{logInBean.logout()}" value="Log Out"/></li>
                 </h:form></ul>
                 </ui:insert>

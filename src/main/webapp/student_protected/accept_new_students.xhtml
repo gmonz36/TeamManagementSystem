@@ -10,10 +10,10 @@
            <ui:define name="content">
            <f:view>
            <h:form>
-                <ui:repeat value="#{acceptNewStudentBean.requestId}" var="teamId">
+                <ui:repeat value="#{acceptNewStudentsBean.requestId}" var="requestId">
                     <table>
                     <column>
-                        <h:selectBooleanCheckbox value="#{acceptNewStudentBean.checkMap[requestId]}" >
+                        <h:selectBooleanCheckbox value="#{acceptNewStudentsBean.checkMap[requestId]}" >
                             <f:ajax event="click"> </f:ajax>
                         </h:selectBooleanCheckbox>
                     </column>
@@ -21,16 +21,13 @@
                        <h:outputText value="#{requestId}"/>
                     </column>
                     <column>
-                        <h:outputText value="#{team.teamName}"/>
-                    </column>
-                    <column>
-                        <h:outputText value="#{team.dateOfCreation}"/>
+                        <h:outputText value="#{team.status}"/>
                     </column>
                     </table>
                 </ui:repeat>
-                <h:commandButton value="Send Requests" type="command" actionListener="#{acceptNewStudentBean.acceptRequests()}" />
-                <br></br><br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusBad" value="#{acceptNewStudentBean.statusBad}"/> 
-                <br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusGood" value="#{acceptNewStudentBean.statusGood}"/>
+                <h:commandButton value="Accept Requests" type="command" actionListener="#{acceptNewStudentsBean.acceptRequests()}" />
+                <br></br><br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusBad" value="#{acceptNewStudentsBean.statusBad}"/> 
+                <br></br><h:outputText  style="color:royalblue; font-size: large; font-weight: bold" id="statusGood" value="#{acceptNewStudentsBean.statusGood}"/>
             </h:form>
             </f:view>
             </ui:define>

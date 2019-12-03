@@ -24,6 +24,16 @@ public class Request implements Serializable{
     String studentId;
     String teamId;
 
+    public Request() {
+    }
+
+    public Request(long id, String status, String studentId, String teamId) {
+        this.id = id;
+        this.status = status;
+        this.studentId = studentId;
+        this.teamId = teamId;
+    }
+    
     public String getStudentId() {
         return studentId;
     }
@@ -48,14 +58,12 @@ public class Request implements Serializable{
         this.id = id;
     }
 
-    public String isStatus() {
+    public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
-    
+
 }
