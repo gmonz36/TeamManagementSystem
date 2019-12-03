@@ -20,10 +20,7 @@ import persistence.CourseSection;
 @RequestScoped
 public class GenerateBean {
     @EJB
-    private TeamFacadeLocal teamFacade;
-    @EJB
-    private UserFacadeLocal userFacade;
-    
+    private ObjectFacadeLocal objectFacade;
     private boolean isGenerated;
     /**
      * Creates a new instance of JoinTeamBean
@@ -39,7 +36,7 @@ public class GenerateBean {
             CourseSection section = new CourseSection();
             section.setCourseCode("SEG3502");
             section.setSectionCode("A01");
-            userFacade.addCourseAndSection(course, section); 
+            objectFacade.addCourseAndSection(course, section); 
         }catch(Exception e){
            System.out.println(e.getMessage());
         }  
@@ -50,7 +47,7 @@ public class GenerateBean {
     public String isGenerated(){
         try{
             
-           if(userFacade.countCourses() == 0){
+           if(objectFacade.countCourses() == 0){
                isGenerated = true;
            }
            else{

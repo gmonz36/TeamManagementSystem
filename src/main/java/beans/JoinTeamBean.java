@@ -31,7 +31,7 @@ import persistence.Team;
 @ApplicationScoped
 public class JoinTeamBean {
     @EJB
-    private TeamFacadeLocal teamFacade;
+    private ObjectFacadeLocal objectFacade;
     
     private ArrayList<Team> teams;
     private Student student;
@@ -54,9 +54,9 @@ public class JoinTeamBean {
             teams = new ArrayList<>();
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Student student = (Student) session.getAttribute("User");
-            course = teamFacade.findCourse(student.getSectionCode());
-            if(teamFacade.getIncompleteTeams(course.getCourseCode())!=null){
-                List<Team> resultList = teamFacade.getIncompleteTeams(course.getCourseCode());
+            course = objectFacade.findCourse(student.getSectionCode());
+            if(objectFacade.getIncompleteTeams(course.getCourseCode())!=null){
+                List<Team> resultList = objectFacade.getIncompleteTeams(course.getCourseCode());
                 for(Team team : resultList){
                     Team x = team;
                     teams.add(new Team(x.getTeamName() ,x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
@@ -85,10 +85,10 @@ public class JoinTeamBean {
         }else{
             int good=0, bad=0;
             for (String id : getSelected()) {
-                if(teamFacade.requestExists(student.getUserId(), id)){
+                if(objectFacade.requestExists(student.getUserId(), id)){
                     bad++;
                 }else{
-                    teamFacade.createRequest("pending", student.getUserId(), id);
+                    objectFacade.createRequest("pending", student.getUserId(), id);
                     good++;
                 }
             }

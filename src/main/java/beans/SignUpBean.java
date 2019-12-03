@@ -21,9 +21,7 @@ public class SignUpBean {
     private String sectionCode;
     private String courseCode;
     @EJB
-    private UserFacadeLocal userFacade;    
-    @Resource
-    private javax.transaction.UserTransaction utx;
+    private ObjectFacadeLocal objectFacade;    
     
     private String status;
     /**
@@ -171,20 +169,20 @@ public class SignUpBean {
                     status="Students must specify their program.";
                     return;
                 }
-                sectionCode = userFacade.getSectionCode();
+                sectionCode = objectFacade.getSectionCode();
                 
-                userFacade.addStudent(program, userId, firstname, lastname, password, sectionCode, email);
+                objectFacade.addStudent(program, userId, firstname, lastname, password, sectionCode, email);
                 status="New Student Created Fine"; 
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             }
             else if(type.equals("Instructor")) {
-                courseCode = userFacade.getCourseCode();
-                if (userFacade.findCourseInstructor(courseCode) != null){
+                courseCode = objectFacade.getCourseCode();
+                if (objectFacade.findCourseInstructor(courseCode) != null){
                     status="Instructor for course already exists"; 
                 }
                 else{
-                    userFacade.modifyCourse(userId);
-                    userFacade.addInstructor(userId, firstname, lastname, password, email);
+                    objectFacade.modifyCourse(userId);
+                    objectFacade.addInstructor(userId, firstname, lastname, password, email);
                     status="New Instructor Created Fine"; 
                     FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
                 }

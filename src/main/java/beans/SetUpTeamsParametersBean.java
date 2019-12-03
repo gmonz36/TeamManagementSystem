@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -25,43 +26,22 @@ import persistence.TeamParameters;
 @Named(value = "setUpTeamsParametersBean")
 @RequestScoped
 public class SetUpTeamsParametersBean {
-
+    
+    @EJB
+    private ObjectFacadeLocal objectFacade;
+    private int min_students;
+    private int max_students;
+    private String deadline;
+    private String courseCode;
+    private String status;
+    
     /**
      * Creates a new instance of SetUpTeamsParametersBean
      */
-    
-        private int min_students;
-        private int max_students;
-        private String deadline;
-        private String courseCode;
-        
-    @PersistenceContext(unitName = "TeamManagementSystemPU")
-    private EntityManager em;
-    @Resource
-    private javax.transaction.UserTransaction utx;
-    
-    private String status;
-    
     public SetUpTeamsParametersBean() {
-        
-        
-        
-    }
-    
-     public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
     }
     
     public String confirmParameters(){
-        
-        
         try {
             
             TeamParameters tp = new TeamParameters();
@@ -69,11 +49,7 @@ public class SetUpTeamsParametersBean {
                 status="max_students cannot be smaller tha min_students";
                 return "Error";
             }
-            tp.setMinStudents(min_students);
-            tp.setMaxStudents(max_students);
-            tp.setDeadline(deadline);
-            tp.setCourseCode(courseCode);
-            persist(tp);
+            objectFacade.addTeamParams(courseCode, min_students, max_students, deadline);
             
             status = "Team parameters setup succesfully";
         } catch(Exception ex) {
@@ -81,9 +57,6 @@ public class SetUpTeamsParametersBean {
             return "error";
         }
         return "confirm";
-        
-        
-    
     }
 
     public int getMin_students() {

@@ -24,12 +24,9 @@ public class LogInBean {
     private String userId;
     private String password;
     private String status;
-    @PersistenceContext(unitName = "TeamManagementSystemPU")
-    private EntityManager em;
     @EJB
-    private UserFacadeLocal userFacade;      
-    @Resource
-    private javax.transaction.UserTransaction utx;
+    private ObjectFacadeLocal objectFacade;      
+    
     /**
      * Creates a new instance of LoginBean
      */
@@ -73,16 +70,16 @@ public class LogInBean {
 
     public void login() {
         try {
-            if (userFacade.isValidLogin(userId, password)) {
+            if (objectFacade.isValidLogin(userId, password)) {
                 //login ok - set user in session context
                 HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-                if(userFacade.findStudent(userId)!=null) {
-                    session.setAttribute("User", userFacade.findStudent(userId));
+                if(objectFacade.findStudent(userId)!=null) {
+                    session.setAttribute("User", objectFacade.findStudent(userId));
                     FacesContext.getCurrentInstance().getExternalContext().redirect("faces/student_protected/menu.xhtml");
 
 
                 } else {
-                   session.setAttribute("User", userFacade.findInstructor(userId)); 
+                   session.setAttribute("User", objectFacade.findInstructor(userId)); 
                    FacesContext.getCurrentInstance().getExternalContext().redirect("faces/instructor_protected/menu.xhtml");
 
                 }

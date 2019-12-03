@@ -26,9 +26,7 @@ import persistence.Team;
 @RequestScoped
 public class VisualizeTeamsBean {
     @EJB
-    private TeamFacadeLocal teamFacade;
-    @EJB
-    private UserFacadeLocal userFacade;
+    private ObjectFacadeLocal objectFacade;
     
     private ArrayList<Team> teams;
     private HashMap<String, ArrayList<String>> members;
@@ -49,21 +47,17 @@ public class VisualizeTeamsBean {
             Instructor ins = (Instructor) session.getAttribute("User");
             
 
-            if((teamFacade.getTeams(userFacade.findCourseCode(ins.getUserId()).getCourseCode())!=null)){
-                List<Team> resultList = teamFacade.getTeams(userFacade.findCourseCode(ins.getUserId()).getCourseCode());
+            if((objectFacade.getTeams(objectFacade.findCourseCode(ins.getUserId()).getCourseCode())!=null)){
+                List<Team> resultList = objectFacade.getTeams(objectFacade.findCourseCode(ins.getUserId()).getCourseCode());
                 for(Team team : resultList){
                     Team x = team;
                     members.clear();
-                    List<Student> students = userFacade.getStudentsInTeam(x.getTeamId());
+                    List<Student> students = objectFacade.getStudentsInTeam(x.getTeamId());
                     ArrayList<String> studentIds = new ArrayList<>();
                     for (Student student: students){
                         studentIds.add(student.getUserId());
                     }
                     members.put(x.getTeamId(), studentIds);
-                   
-                    
-                    
-                    
                     teams.add(new Team(x.getTeamName(), x.getCourseCode(), x.getTeamId(), x.getDateOfCreation(), x.getTeamStatus(), x.getLiaisonId()));
                 }
             }
@@ -97,7 +91,7 @@ public class VisualizeTeamsBean {
         
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Instructor ins = (Instructor) session.getAttribute("User");
-        String courseCode = userFacade.getCourseCode();
+        String courseCode = objectFacade.getCourseCode();
         return courseCode;
     }
 }

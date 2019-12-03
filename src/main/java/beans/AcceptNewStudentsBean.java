@@ -26,9 +26,8 @@ import persistence.Request;
 @ApplicationScoped
 public class AcceptNewStudentsBean {
     @EJB
-    private TeamFacadeLocal teamFacade;
-    @EJB
-    private UserFacadeLocal userFacade;
+    private ObjectFacadeLocal objectFacade;
+
     private List<Request> requestList;
     private ArrayList<Request> requests;
     private Student student; 
@@ -45,7 +44,7 @@ public class AcceptNewStudentsBean {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             Student student = (Student) session.getAttribute("User");
             requests = new ArrayList<>();
-            requestList = teamFacade.getRequests(student.getTeamId());
+            requestList = objectFacade.getRequests(student.getTeamId());
             
             //Adding the requests to the array
             for(Request request : requestList){
@@ -54,7 +53,7 @@ public class AcceptNewStudentsBean {
             } 
             
             //redirecting to the right page
-            if(teamFacade.isLiaison(student)){
+            if(objectFacade.isLiaison(student)){
                 //checkboxes
                 checkMap = new HashMap<>();
                 for (Request r : requests) {
@@ -81,16 +80,16 @@ public class AcceptNewStudentsBean {
             Student student = (Student) session.getAttribute("User");
             ArrayList<String> selected = getSelected();
             
-            Course course = teamFacade.findCourse(student.getSectionCode());
+            Course course = objectFacade.findCourse(student.getSectionCode());
 
             //check the amount of team members (error)
-            if((teamFacade.findTeamParams(course.getCourseCode())).getMaxStudents()<selected.size() + teamFacade.findCurrentAmountOfMembers(student.getTeamId())){
+            if((objectFacade.findTeamParams(course.getCourseCode())).getMaxStudents()<selected.size() + objectFacade.findCurrentAmountOfMembers(student.getTeamId())){
                 statusBad = "With these requests the amount of team members exceeds the limit, please select less students";
                 return; 
             }
 
             for (String studentId : selected) {
-                Student s = (Student)userFacade.findStudent(studentId);
+                Student s = (Student)objectFacade.findStudent(studentId);
                 if (s == null){
                     throw new Exception();      
                 }
@@ -99,7 +98,7 @@ public class AcceptNewStudentsBean {
                     bad++;
                 }else{
                     good++;
-                    teamFacade.acceptStudent(s.getUserId(), student.getTeamId());
+                    objectFacade.acceptStudent(s.getUserId(), student.getTeamId());
                 }
             }   
             

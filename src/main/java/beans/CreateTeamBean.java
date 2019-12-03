@@ -31,9 +31,7 @@ public class CreateTeamBean {
      * Creates a new instance of SetUpTeamsParametersBean
      */
     @EJB
-    private UserFacadeLocal userFacade;
-    @EJB
-    private TeamFacadeLocal teamFacade;
+    private ObjectFacadeLocal objectFacade;
     
     private String teamName;
     private String membersString;
@@ -55,7 +53,7 @@ public class CreateTeamBean {
             Student user = (Student)session.getAttribute("User");
             
             //verify that TeamParameters exist
-            TeamParameters params = teamFacade.findTeamParams(courseCode);
+            TeamParameters params = objectFacade.findTeamParams(courseCode);
             if(params == null) {
                 status = "No Team parameters exist for this course";
                 return;
@@ -78,7 +76,7 @@ public class CreateTeamBean {
             //checks if student is already in team (error 1.2)
             if (tmp_members != null){
                 for (int i=0; i<tmp_members.length; i++){
-                    Student student = (Student)userFacade.findStudent(tmp_members[i]);
+                    Student student = (Student)objectFacade.findStudent(tmp_members[i]);
                     if (student == null){
                         throw new Exception();      
                     }
@@ -90,7 +88,7 @@ public class CreateTeamBean {
             }
 
             //checks for a duplicate team name (error 2)
-            if(teamFacade.teamNameAlreadyExists(teamName)){
+            if(objectFacade.teamNameAlreadyExists(teamName)){
                 status = "This team name already exists";
                 return;
             }
@@ -110,14 +108,14 @@ public class CreateTeamBean {
             //goes through all the members in the list and add the teamId
             if (tmp_members!=null){
                 for (int i=0; i<tmp_members.length; i++){
-                    Student student = (Student)userFacade.findStudent(tmp_members[i]);
+                    Student student = (Student)objectFacade.findStudent(tmp_members[i]);
                     student.setTeamId(teamId);
-                    userFacade.editStudent(student);
+                    objectFacade.editStudent(student);
                 }
             }
 
             user.setTeamId(teamId);
-            userFacade.editStudent(user);
+            objectFacade.editStudent(user);
 
             //set the Team variables
             Team team = new Team();
@@ -142,7 +140,7 @@ public class CreateTeamBean {
             }
 
 
-            teamFacade.addTeam(team);
+            objectFacade.addTeam(team);
             status="team created";
 
 
@@ -170,7 +168,7 @@ public class CreateTeamBean {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Student student = (Student) session.getAttribute("User");
    
-        Course course = teamFacade.findCourse(student.getSectionCode());
+        Course course = objectFacade.findCourse(student.getSectionCode());
         return course.getCourseCode();
     }
 
