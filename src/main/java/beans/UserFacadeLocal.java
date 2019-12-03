@@ -14,6 +14,7 @@ import persistence.Instructor;
 import java.util.List;
 import javax.ejb.Local;
 import persistence.Course;
+import persistence.CourseSection;
 
 /**
  *
@@ -59,5 +60,10 @@ public interface UserFacadeLocal {
     public String findCourseInstructor(String courseCode);
 
     public void modifyCourse(String userId);
+
+    public void addCourseAndSection(Course course, CourseSection section);
+
+
+    public int countCourses();
 
 }

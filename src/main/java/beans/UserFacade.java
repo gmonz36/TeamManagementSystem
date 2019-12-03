@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import javax.persistence.Query;
 import persistence.Course;
+import persistence.CourseSection;
 import persistence.Student;
 import persistence.Instructor;
 
@@ -268,6 +269,21 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
     }
     
  
+    @Override
+    public void addCourseAndSection(Course course, CourseSection section){
+        getEntityManager().persist(course);
+        getEntityManager().persist(section);
+    }
+
+    @Override
+    public int countCourses(){
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<Course> rt = cq.from(Course.class);
+        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    
+    }
                            
                             
 
