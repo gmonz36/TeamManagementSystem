@@ -62,4 +62,6 @@ public interface TeamFacadeLocal {
     
     public void acceptStudent(String studentId, String teamId);
     
+    public int findCurrentAmountOfMembers(String teamId);
+    
 }
